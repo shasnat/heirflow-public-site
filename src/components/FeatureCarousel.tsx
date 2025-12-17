@@ -3,12 +3,21 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
   type CarouselApi,
 } from "./ui/carousel";
 import { Card, CardContent } from "./ui/card";
-import { Clock, FileCheck, BookOpen, CheckCircle2 } from "lucide-react";
+import {
+  Clock,
+  FileCheck,
+  BookOpen,
+  CheckCircle2,
+  X,
+  Play,
+  ExternalLink,
+  ArrowLeft,
+  ArrowRight,
+} from "lucide-react";
+import { Button } from "./ui/button";
 
 const features = [
   {
@@ -42,7 +51,10 @@ const features = [
               { num: 4, label: "Marshal", active: false },
               { num: 5, label: "Liabilities", active: false },
             ].map((step, idx) => (
-              <div key={idx} className="flex flex-col items-center relative z-10">
+              <div
+                key={idx}
+                className="flex flex-col items-center relative z-10"
+              >
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all ${
                     step.active
@@ -122,47 +134,99 @@ const features = [
       "Best practice tips",
       "Court-specific instructions",
     ],
-    visual: (
-      <div className="flex flex-col items-center justify-center h-full p-8">
-        <div className="w-full max-w-md bg-blue-50 rounded-xl p-6 border border-blue-100">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-              <BookOpen className="w-5 h-5 text-blue-600" />
-            </div>
-            <h3 className="text-lg font-semibold text-slate-800">
-              Why is this step important?
-            </h3>
+    visual: null, // Will be handled separately with modal
+  },
+];
+
+// Video modal component
+function VideoModal({
+  isOpen,
+  onClose,
+  title,
+  description,
+  videoUrl,
+  videoTitle,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  description: string;
+  videoUrl: string;
+  videoTitle: string;
+}) {
+  if (!isOpen) return null;
+
+  const getYouTubeEmbedUrl = (url: string) => {
+    const videoId = url.includes("youtube.com/watch?v=")
+      ? url.split("v=")[1]?.split("&")[0]
+      : url.includes("youtu.be/")
+      ? url.split("youtu.be/")[1]?.split("?")[0]
+      : null;
+    return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+      <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between z-10">
+          <div>
+            <h3 className="text-xl font-semibold text-slate-800">{title}</h3>
+            <p className="text-sm text-slate-600 mt-1">{description}</p>
           </div>
-          <p className="text-sm text-slate-700 mb-4">
-            Notarizing documents ensures their legal validity. The court
-            requires notarized signatures to verify the identity of all parties
-            involved in the estate administration.
-          </p>
-          <div className="mt-4 pt-4 border-t border-blue-200">
-            <p className="text-xs font-semibold text-blue-600 mb-2">
-              Quick Tips:
-            </p>
-            <ul className="space-y-2">
-              {[
-                "Schedule notary appointments in advance",
-                "Bring valid government-issued ID",
-              ].map((tip, idx) => (
-                <li key={idx} className="flex items-center gap-2 text-sm text-slate-700">
-                  <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
-                  {tip}
-                </li>
-              ))}
-            </ul>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onClose}
+            className="rounded-full"
+          >
+            <X className="w-5 h-5" />
+          </Button>
+        </div>
+        <div className="p-6">
+          <div className="aspect-video bg-slate-100 rounded-lg overflow-hidden mb-4">
+            <iframe
+              src={getYouTubeEmbedUrl(videoUrl)}
+              title={videoTitle}
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          <div className="flex items-center gap-4">
+            <Button
+              variant="outline"
+              onClick={() => window.open(videoUrl, "_blank")}
+              className="flex items-center gap-2"
+            >
+              <ExternalLink className="w-4 h-4" />
+              Watch on YouTube
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                navigator.clipboard.writeText(videoUrl);
+              }}
+              className="flex items-center gap-2"
+            >
+              Copy link
+            </Button>
           </div>
         </div>
       </div>
-    ),
-  },
-];
+    </div>
+  );
+}
 
 export default function FeatureCarousel() {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState<{
+    title: string;
+    description: string;
+    videoUrl: string;
+    videoTitle: string;
+  } | null>(null);
 
   useEffect(() => {
     if (!api) {
@@ -176,68 +240,194 @@ export default function FeatureCarousel() {
     });
   }, [api]);
 
+  // Auto-cycle carousel every 5 seconds (pauses on hover)
+  useEffect(() => {
+    if (!api || isHovered) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      api.scrollNext();
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [api, isHovered]);
+
+  // Educational videos data
+  const educationalVideos = [
+    {
+      title: "Understanding Probate Process",
+      description:
+        "Learn the step-by-step process of probate administration and what to expect.",
+      videoUrl: "https://www.youtube.com/watch?v=wgE4jooCBlY",
+      videoTitle: "Probate Process Explained",
+      topic: "Probate Basics",
+    },
+    {
+      title: "What is Intestacy",
+      description:
+        "Understanding what happens when someone dies without a will and how assets are distributed.",
+      videoUrl: "https://www.youtube.com/watch?v=lndrFiY7EHs",
+      videoTitle: "What is Intestacy",
+      topic: "What is intestacy",
+    },
+    {
+      title: "How Assets Are Passed On After Death",
+      description:
+        "Understanding how different types of ownership affect asset distribution after someone passes away.",
+      videoUrl: "https://www.youtube.com/watch?v=4P9tILg8cxs",
+      videoTitle: "THE 3 BUCKETS THAT CONTROL WHO GET YOUR MONEY & PROPERTY",
+      topic: "Asset Ownership",
+    },
+  ];
+
   return (
-    <div className="w-full max-w-6xl mx-auto">
-      <Carousel setApi={setApi} className="w-full">
-        <CarouselContent>
-          {features.map((feature, index) => {
-            const Icon = feature.icon;
-            return (
-              <CarouselItem key={index}>
-                <Card className="bg-white shadow-lg border-slate-200">
-                  <CardContent className="p-8">
-                    <div className="grid md:grid-cols-2 gap-8 items-center">
-                      {/* Left side - Content */}
-                      <div className="space-y-6">
-                        <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                            <Icon className="w-6 h-6 text-blue-600" />
+    <>
+      <div
+        className="w-full max-w-6xl mx-auto relative"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {/* Previous Arrow - Outside carousel on the left */}
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full pr-4 z-10">
+          <Button
+            variant="outline"
+            size="icon"
+            className="size-10 rounded-full bg-white shadow-lg border border-slate-200"
+            onClick={() => api?.scrollPrev()}
+            aria-label="Previous slide"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </Button>
+        </div>
+
+        {/* Next Arrow - Outside carousel on the right */}
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full pl-4 z-10">
+          <Button
+            variant="outline"
+            size="icon"
+            className="size-10 rounded-full bg-white shadow-lg border border-slate-200"
+            onClick={() => api?.scrollNext()}
+            aria-label="Next slide"
+          >
+            <ArrowRight className="w-4 h-4" />
+          </Button>
+        </div>
+
+        <Carousel setApi={setApi} className="w-full" opts={{ loop: true }}>
+          <CarouselContent>
+            {features.map((feature, index) => {
+              const Icon = feature.icon;
+              const isEducationPanel = index === 2; // Built-in Education is the 3rd panel
+
+              return (
+                <CarouselItem key={index}>
+                  <Card className="bg-white shadow-lg border-slate-200">
+                    <CardContent className="p-8">
+                      <div className="grid md:grid-cols-2 gap-8 items-center">
+                        {/* Left side - Content */}
+                        <div className="space-y-6">
+                          <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                              <Icon className="w-6 h-6 text-blue-600" />
+                            </div>
+                            <p className="text-sm font-medium text-blue-600">
+                              {feature.tagline}
+                            </p>
                           </div>
-                          <p className="text-sm font-medium text-blue-600">
-                            {feature.tagline}
+                          <h2 className="text-3xl font-bold text-slate-800">
+                            {feature.title}
+                          </h2>
+                          <p className="text-slate-600 leading-relaxed">
+                            {feature.description}
                           </p>
+                          <ul className="space-y-3">
+                            {feature.features.map((item, idx) => (
+                              <li key={idx} className="flex items-center gap-3">
+                                <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
+                                <span className="text-slate-700">{item}</span>
+                              </li>
+                            ))}
+                          </ul>
                         </div>
-                        <h2 className="text-3xl font-bold text-slate-800">
-                          {feature.title}
-                        </h2>
-                        <p className="text-slate-600 leading-relaxed">
-                          {feature.description}
-                        </p>
-                        <ul className="space-y-3">
-                          {feature.features.map((item, idx) => (
-                            <li key={idx} className="flex items-center gap-3">
-                              <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
-                              <span className="text-slate-700">{item}</span>
-                            </li>
-                          ))}
-                        </ul>
+                        {/* Right side - Visual */}
+                        <div className="hidden md:block">
+                          {isEducationPanel ? (
+                            <div className="flex flex-col items-center justify-center h-full p-6">
+                              <div className="w-full max-w-md">
+                                <h3 className="text-sm font-medium text-slate-600 mb-4 text-center">
+                                  Educational Resources
+                                </h3>
+                                <div className="space-y-3">
+                                  {educationalVideos.map((video, idx) => (
+                                    <div
+                                      key={idx}
+                                      className="flex items-center p-3 bg-slate-50 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition-colors cursor-pointer group"
+                                      onClick={() => setSelectedVideo(video)}
+                                    >
+                                      <div className="flex items-center gap-2.5 flex-1">
+                                        <div className="w-9 h-9 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors flex-shrink-0">
+                                          <Play className="w-4 h-4 text-blue-600" />
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                          <p className="text-sm font-semibold text-slate-800 truncate">
+                                            {video.topic}
+                                          </p>
+                                          <p className="text-xs text-slate-600 truncate mt-0.5">
+                                            {video.title}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="mt-4 text-center">
+                                  <p className="text-xs text-slate-500">
+                                    Click any topic to watch educational videos
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            feature.visual
+                          )}
+                        </div>
                       </div>
-                      {/* Right side - Visual */}
-                      <div className="hidden md:block">{feature.visual}</div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </CarouselItem>
-            );
-          })}
-        </CarouselContent>
-        <CarouselPrevious className="left-4" />
-        <CarouselNext className="right-4" />
-      </Carousel>
-      {/* Pagination dots */}
-      <div className="flex justify-center gap-2 mt-6">
-        {features.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => api?.scrollTo(index)}
-            className={`w-2 h-2 rounded-full transition-all ${
-              current === index ? "bg-blue-600 w-8" : "bg-slate-300"
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              );
+            })}
+          </CarouselContent>
+        </Carousel>
+        {/* Pagination dots */}
+        <div className="flex justify-center gap-2 mt-6">
+          {features.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => api?.scrollTo(index)}
+              className={`w-2 h-2 rounded-full transition-all ${
+                current === index ? "bg-blue-600 w-8" : "bg-slate-300"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+
+      {/* Video Modal */}
+      {selectedVideo && (
+        <VideoModal
+          isOpen={!!selectedVideo}
+          onClose={() => setSelectedVideo(null)}
+          title={selectedVideo.title}
+          description={selectedVideo.description}
+          videoUrl={selectedVideo.videoUrl}
+          videoTitle={selectedVideo.videoTitle}
+        />
+      )}
+    </>
   );
 }
-
