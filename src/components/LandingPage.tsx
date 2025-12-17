@@ -3,7 +3,9 @@ import { Button } from "./ui/button";
 import FeatureCarousel from "./FeatureCarousel";
 
 interface LandingPageProps {
-  onNavigate: (page: "landing" | "consultation" | "schedule-demo" | "privacy") => void;
+  onNavigate: (
+    page: "landing" | "consultation" | "schedule-demo" | "privacy"
+  ) => void;
 }
 
 export default function LandingPage({ onNavigate }: LandingPageProps) {
@@ -12,7 +14,9 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
       {/* Header */}
       <header className="container mx-auto px-4 py-6 flex items-center">
         <div className="flex items-center gap-3">
-          <span className="text-2xl font-semibold text-slate-800">HeirFlow</span>
+          <span className="text-2xl font-semibold text-slate-800">
+            HeirFlow
+          </span>
         </div>
       </header>
 
@@ -23,7 +27,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
         </h1>
         <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-8">
           Streamline every step of probate and estate administration with clear
-          timelines, smart document recommendations, and built-in guidance—all
+          timelines, smart document recommendations, and built-in education—all
           in one secure platform.
         </p>
         <div className="flex items-center justify-center gap-4 flex-wrap">
@@ -53,7 +57,9 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
       {/* Footer */}
       <footer className="container mx-auto px-4 py-8 mt-16 border-t border-slate-200">
         <div className="text-center space-y-3">
-          <p className="text-sm text-slate-500">Secure • Confidential • Professional</p>
+          <p className="text-sm text-slate-500">
+            Secure • Confidential • Professional
+          </p>
           <p className="text-xs text-slate-400">
             <button
               onClick={() => onNavigate("privacy")}
@@ -67,4 +73,3 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
     </div>
   );
 }
-
