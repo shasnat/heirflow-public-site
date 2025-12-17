@@ -3,7 +3,7 @@ import { Button } from "./ui/button";
 import FeatureCarousel from "./FeatureCarousel";
 
 interface LandingPageProps {
-  onNavigate: (page: "landing" | "consultation" | "schedule-demo") => void;
+  onNavigate: (page: "landing" | "consultation" | "schedule-demo" | "privacy") => void;
 }
 
 export default function LandingPage({ onNavigate }: LandingPageProps) {
@@ -53,8 +53,16 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
       {/* Footer */}
       <footer className="container mx-auto px-4 py-8 mt-16 border-t border-slate-200">
-        <div className="text-center text-sm text-slate-500">
-          <p>Secure • Confidential • Professional</p>
+        <div className="text-center space-y-3">
+          <p className="text-sm text-slate-500">Secure • Confidential • Professional</p>
+          <p className="text-xs text-slate-400">
+            <button
+              onClick={() => onNavigate("privacy")}
+              className="hover:text-blue-600 transition-colors underline"
+            >
+              Privacy Policy
+            </button>
+          </p>
         </div>
       </footer>
     </div>
