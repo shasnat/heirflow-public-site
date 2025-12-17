@@ -2,7 +2,11 @@ import { Shield, ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
 import FeatureCarousel from "./FeatureCarousel";
 
-export default function LandingPage() {
+interface LandingPageProps {
+  onNavigate: (page: "landing" | "consultation" | "schedule-demo") => void;
+}
+
+export default function LandingPage({ onNavigate }: LandingPageProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100">
       {/* Header */}
@@ -28,13 +32,15 @@ export default function LandingPage() {
           <Button
             size="lg"
             className="bg-blue-600 hover:bg-blue-700 text-white px-8"
+            onClick={() => onNavigate("consultation")}
           >
-            Start Free Trial <ArrowRight className="ml-2" />
+            Free Consultation <ArrowRight className="ml-2" />
           </Button>
           <Button
             size="lg"
             variant="outline"
             className="border-blue-600 text-blue-600 hover:bg-blue-50 px-8"
+            onClick={() => onNavigate("schedule-demo")}
           >
             Schedule Demo
           </Button>
