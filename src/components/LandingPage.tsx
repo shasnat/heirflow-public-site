@@ -6,18 +6,10 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100">
       {/* Header */}
-      <header className="container mx-auto px-4 py-6 flex items-center justify-between">
+      <header className="container mx-auto px-4 py-6 flex items-center">
         <div className="flex items-center gap-3">
           <Shield className="h-8 w-8 text-blue-600" />
           <span className="text-2xl font-semibold text-slate-800">HeirFlow</span>
-        </div>
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" className="text-slate-700">
-            Sign In
-          </Button>
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-            Get Started
-          </Button>
         </div>
       </header>
 
@@ -28,7 +20,7 @@ export default function LandingPage() {
           <span className="text-blue-600">Simplified</span>
         </h1>
         <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-8">
-          Streamline every step of estate administration with intelligent
+          Streamline every step of probate and estate administration with clear
           timelines, smart document recommendations, and built-in guidance—all
           in one secure platform.
         </p>
@@ -51,14 +43,6 @@ export default function LandingPage() {
 
       {/* Feature Section */}
       <section className="container mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-slate-800 mb-4">
-            Everything You Need for Estate Administration
-          </h2>
-          <p className="text-lg text-blue-600">
-            Discover how HeirFlow transforms the probate process
-          </p>
-        </div>
         <FeatureCarousel />
       </section>
 

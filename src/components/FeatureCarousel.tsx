@@ -27,7 +27,7 @@ const features = [
     description:
       "Streamline every step of estate administration with a visual timeline that guides you from intake to final distribution.",
     features: [
-      "6-step guided workflow",
+      "Step-by-step workflow",
       "Real-time progress tracking",
       "Automated milestone updates",
       "Task prioritization",
@@ -86,7 +86,7 @@ const features = [
       "Our intelligent system analyzes your case details and recommends the exact court documents you need—no more guesswork.",
     features: [
       "Auto-recommended filings",
-      "Pre-filled templates",
+      "Auto-filled templates",
       "Court-compliant formats",
       "Document tracking",
     ],
@@ -270,8 +270,8 @@ export default function FeatureCarousel() {
       description:
         "Understanding what happens when someone dies without a will and how assets are distributed.",
       videoUrl: "https://www.youtube.com/watch?v=lndrFiY7EHs",
-      videoTitle: "What is Intestacy",
-      topic: "What is intestacy",
+      videoTitle: "Intestacy",
+      topic: "Intestacy",
     },
     {
       title: "How Assets Are Passed On After Death",
