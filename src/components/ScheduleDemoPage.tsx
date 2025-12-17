@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Shield, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input, Textarea } from "./ui/input";
 import { supabase } from "../lib/supabase";
@@ -101,7 +101,6 @@ export default function ScheduleDemoPage({ onNavigate }: ScheduleDemoPageProps) 
       <section className="container mx-auto px-4 py-16 max-w-2xl">
         <div className="bg-white rounded-lg shadow-lg border border-slate-200 p-8">
           <div className="flex items-center gap-3 mb-6">
-            <Shield className="h-8 w-8 text-blue-600" />
             <h1 className="text-3xl font-bold text-slate-800">
               Schedule a Demo
             </h1>

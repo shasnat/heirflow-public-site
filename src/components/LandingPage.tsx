@@ -1,4 +1,4 @@
-import { Shield, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
 import FeatureCarousel from "./FeatureCarousel";
 
@@ -12,7 +12,6 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
       {/* Header */}
       <header className="container mx-auto px-4 py-6 flex items-center">
         <div className="flex items-center gap-3">
-          <Shield className="h-8 w-8 text-blue-600" />
           <span className="text-2xl font-semibold text-slate-800">HeirFlow</span>
         </div>
       </header>
