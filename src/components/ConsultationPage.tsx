@@ -114,19 +114,29 @@ export default function ConsultationPage({ onNavigate }: ConsultationPageProps) 
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label
-                htmlFor="caseDetails"
-                className="block text-sm font-medium text-slate-700 mb-2"
-              >
-                Tell us about a case
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label
+                  htmlFor="caseDetails"
+                  className="block text-sm font-medium text-slate-700"
+                >
+                  Tell us about a case in a few sentences
+                </label>
+                <span className="text-xs text-slate-500">
+                  {caseDetails.length}/800
+                </span>
+              </div>
               <Textarea
                 id="caseDetails"
                 value={caseDetails}
-                onChange={(e) => setCaseDetails(e.target.value)}
-                placeholder="Describe your case details..."
+                onChange={(e) => {
+                  if (e.target.value.length <= 800) {
+                    setCaseDetails(e.target.value);
+                  }
+                }}
+                placeholder="Non-sensitive case details..."
                 rows={6}
                 required
+                maxLength={800}
                 className="w-full"
               />
             </div>
