@@ -19,8 +19,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-16 text-center">
         <h1 className="text-5xl md:text-6xl font-bold text-slate-800 mb-4">
-          Probate Management,{" "}
-          <span className="text-blue-600">Simplified</span>
+          <span className="text-blue-600">Guided</span> Probate Management
         </h1>
         <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-8">
           Streamline every step of probate and estate administration with clear
