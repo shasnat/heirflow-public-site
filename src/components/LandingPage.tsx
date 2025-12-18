@@ -59,6 +59,31 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
         <FeatureCarousel />
       </section>
 
+      {/* Intake Process Demo Video */}
+      <section className="container mx-auto px-4 py-16">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-slate-800 mb-3">
+              See It In Action
+            </h2>
+            <p className="text-lg text-slate-600">
+              Watch a demo of our Intake process
+            </p>
+          </div>
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-slate-200">
+            <div className="aspect-video bg-slate-100">
+              <iframe
+                src="https://www.loom.com/embed/cc4818e32c974bb483150f1af1d7abc1"
+                frameBorder="0"
+                allowFullScreen
+                className="w-full h-full"
+                title="HeirFlow Intake Process Demo"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="container mx-auto px-4 py-8 mt-16 border-t border-slate-200">
         <div className="text-center space-y-3">
