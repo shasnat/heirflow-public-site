@@ -248,7 +248,7 @@ export default function FeatureCarousel() {
 
     const interval = setInterval(() => {
       api.scrollNext();
-    }, 5000);
+    }, 12000);
 
     return () => {
       clearInterval(interval);
