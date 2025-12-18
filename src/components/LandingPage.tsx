@@ -14,6 +14,13 @@ interface LandingPageProps {
 }
 
 export default function LandingPage({ onNavigate }: LandingPageProps) {
+  const scrollToVideo = () => {
+    const videoSection = document.getElementById("video-section");
+    if (videoSection) {
+      videoSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100">
       {/* Header */}
@@ -39,17 +46,17 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
           <Button
             size="lg"
             className="bg-blue-600 hover:bg-blue-700 text-white px-8"
-            onClick={() => onNavigate("probate-checklist")}
+            onClick={scrollToVideo}
           >
-            Free Probate Survival Guide <ArrowRight className="ml-2" />
+            See it in Action
           </Button>
           <Button
             size="lg"
             variant="outline"
             className="border-blue-600 text-blue-600 hover:bg-blue-50 px-8"
-            onClick={() => onNavigate("schedule-demo")}
+            onClick={() => onNavigate("probate-checklist")}
           >
-            Schedule Demo
+            Free Probate Survival Guide <ArrowRight className="ml-2" />
           </Button>
         </div>
       </section>
@@ -60,7 +67,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
       </section>
 
       {/* Intake Process Demo Video */}
-      <section className="container mx-auto px-4 py-16">
+      <section id="video-section" className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-slate-800 mb-3">
@@ -80,6 +87,23 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 title="HeirFlow Intake Process Demo"
               />
             </div>
+          </div>
+          <div className="flex items-center justify-center gap-4 flex-wrap mt-8">
+            <Button
+              size="lg"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8"
+              onClick={() => onNavigate("schedule-demo")}
+            >
+              Contact Sales
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-blue-600 text-blue-600 hover:bg-blue-50 px-8"
+              onClick={() => onNavigate("probate-checklist")}
+            >
+              Free Probate Survival Guide <ArrowRight className="ml-2" />
+            </Button>
           </div>
         </div>
       </section>
