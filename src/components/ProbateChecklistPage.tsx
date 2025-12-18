@@ -76,7 +76,7 @@ export default function ProbateChecklistPage({ onNavigate }: ProbateChecklistPag
 
       setSubmitStatus({
         type: "success",
-        message: "Thank you! Your free probate checklist will be sent to your email shortly.",
+        message: "Thank you! Your free Probate Survival Guide will be sent to your email shortly.",
       });
 
       // Reset form
@@ -85,7 +85,7 @@ export default function ProbateChecklistPage({ onNavigate }: ProbateChecklistPag
       setPhone("");
       setFirmName("");
     } catch (error: any) {
-      console.error("Error submitting probate checklist request:", error);
+      console.error("Error submitting probate survival guide request:", error);
       setSubmitStatus({
         type: "error",
         message: "Something went wrong. Please try again later.",
@@ -113,12 +113,12 @@ export default function ProbateChecklistPage({ onNavigate }: ProbateChecklistPag
         <div className="bg-white rounded-lg shadow-lg border border-slate-200 p-8">
           <div className="flex items-center gap-3 mb-6">
             <h1 className="text-3xl font-bold text-slate-800">
-              Get Your Free Probate Checklist
+              Get Your Free Probate Survival Guide
             </h1>
           </div>
 
           <p className="text-slate-600 mb-8 leading-relaxed">
-            Going through this form will let you get a free probate checklist that walks you through everything you need to do for a probate case. This comprehensive guide will help ensure you don't miss any critical steps in the probate process.
+            The probate court submission process can be brutal if you miss key steps. Court clerks will reject your submission, causing delays and frustration. Get your free Probate Survival Guide—a comprehensive walkthrough that ensures you don't miss any critical steps and helps you navigate the probate process successfully.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -212,7 +212,7 @@ export default function ProbateChecklistPage({ onNavigate }: ProbateChecklistPag
               className="w-full bg-blue-600 hover:bg-blue-700 text-white"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Submitting..." : "Get Free Checklist"}
+              {isSubmitting ? "Submitting..." : "Get Free Survival Guide"}
             </Button>
           </form>
         </div>

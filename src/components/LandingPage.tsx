@@ -41,7 +41,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
             className="bg-blue-600 hover:bg-blue-700 text-white px-8"
             onClick={() => onNavigate("probate-checklist")}
           >
-            Free Probate Checklist <ArrowRight className="ml-2" />
+            Free Probate Survival Guide <ArrowRight className="ml-2" />
           </Button>
           <Button
             size="lg"
