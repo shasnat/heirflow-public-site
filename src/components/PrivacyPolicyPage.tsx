@@ -2,7 +2,7 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "./ui/button";
 
 interface PrivacyPolicyPageProps {
-  onNavigate: (page: "landing" | "consultation" | "schedule-demo" | "privacy") => void;
+  onNavigate: (page: "landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist") => void;
 }
 
 export default function PrivacyPolicyPage({ onNavigate }: PrivacyPolicyPageProps) {

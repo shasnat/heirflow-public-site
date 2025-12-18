@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "./ui/button";
-import { Input, Textarea } from "./ui/input";
+import { Input } from "./ui/input";
 import { supabase } from "../lib/supabase";
 
-interface ConsultationPageProps {
+interface ProbateChecklistPageProps {
   onNavigate: (page: "landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist") => void;
 }
 
-export default function ConsultationPage({ onNavigate }: ConsultationPageProps) {
-  const [caseDetails, setCaseDetails] = useState("");
+export default function ProbateChecklistPage({ onNavigate }: ProbateChecklistPageProps) {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [firmName, setFirmName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
     type: "success" | "error" | null;
@@ -26,10 +27,10 @@ export default function ConsultationPage({ onNavigate }: ConsultationPageProps) 
     e.preventDefault();
 
     // Validation
-    if (!caseDetails.trim()) {
+    if (!name.trim()) {
       setSubmitStatus({
         type: "error",
-        message: "Please tell us about your case.",
+        message: "Please enter your name.",
       });
       return;
     }
@@ -50,14 +51,23 @@ export default function ConsultationPage({ onNavigate }: ConsultationPageProps) 
       return;
     }
 
+    if (!firmName.trim()) {
+      setSubmitStatus({
+        type: "error",
+        message: "Please enter your firm name.",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus({ type: null, message: "" });
 
     try {
-      const { error } = await supabase.from("consultations").insert({
-        case_details: caseDetails,
+      const { error } = await supabase.from("probate_checklist_submissions").insert({
+        name: name,
         email: email,
         phone: phone,
+        firm_name: firmName,
       });
 
       if (error) {
@@ -66,15 +76,16 @@ export default function ConsultationPage({ onNavigate }: ConsultationPageProps) 
 
       setSubmitStatus({
         type: "success",
-        message: "Thank you! We'll review your case and get back to you soon.",
+        message: "Thank you! Your free probate checklist will be sent to your email shortly.",
       });
 
       // Reset form
-      setCaseDetails("");
+      setName("");
       setEmail("");
       setPhone("");
+      setFirmName("");
     } catch (error: any) {
-      console.error("Error submitting consultation:", error);
+      console.error("Error submitting probate checklist request:", error);
       setSubmitStatus({
         type: "error",
         message: "Something went wrong. Please try again later.",
@@ -102,41 +113,29 @@ export default function ConsultationPage({ onNavigate }: ConsultationPageProps) 
         <div className="bg-white rounded-lg shadow-lg border border-slate-200 p-8">
           <div className="flex items-center gap-3 mb-6">
             <h1 className="text-3xl font-bold text-slate-800">
-              Free Legal Consultation
+              Get Your Free Probate Checklist
             </h1>
           </div>
 
           <p className="text-slate-600 mb-8 leading-relaxed">
-            Tell us about an active probate or estate administration case. Our
-            legal team will review it and help ensure you're filing the right
-            court documents for your client.
+            Going through this form will let you get a free probate checklist that walks you through everything you need to do for a probate case. This comprehensive guide will help ensure you don't miss any critical steps in the probate process.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <label
-                  htmlFor="caseDetails"
-                  className="block text-sm font-medium text-slate-700"
-                >
-                  Tell us about a case in a few sentences
-                </label>
-                <span className="text-xs text-slate-500">
-                  {caseDetails.length}/800
-                </span>
-              </div>
-              <Textarea
-                id="caseDetails"
-                value={caseDetails}
-                onChange={(e) => {
-                  if (e.target.value.length <= 800) {
-                    setCaseDetails(e.target.value);
-                  }
-                }}
-                placeholder="Non-sensitive case details..."
-                rows={6}
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-slate-700 mb-2"
+              >
+                Name
+              </label>
+              <Input
+                id="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your full name"
                 required
-                maxLength={800}
                 className="w-full"
               />
             </div>
@@ -177,6 +176,24 @@ export default function ConsultationPage({ onNavigate }: ConsultationPageProps) 
               />
             </div>
 
+            <div>
+              <label
+                htmlFor="firmName"
+                className="block text-sm font-medium text-slate-700 mb-2"
+              >
+                Firm Name
+              </label>
+              <Input
+                id="firmName"
+                type="text"
+                value={firmName}
+                onChange={(e) => setFirmName(e.target.value)}
+                placeholder="Your law firm name"
+                required
+                className="w-full"
+              />
+            </div>
+
             {submitStatus.type && (
               <div
                 className={`p-4 rounded-lg ${
@@ -195,7 +212,7 @@ export default function ConsultationPage({ onNavigate }: ConsultationPageProps) 
               className="w-full bg-blue-600 hover:bg-blue-700 text-white"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Submitting..." : "Submit Consultation"}
+              {isSubmitting ? "Submitting..." : "Get Free Checklist"}
             </Button>
           </form>
         </div>

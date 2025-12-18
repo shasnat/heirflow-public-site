@@ -4,7 +4,12 @@ import FeatureCarousel from "./FeatureCarousel";
 
 interface LandingPageProps {
   onNavigate: (
-    page: "landing" | "consultation" | "schedule-demo" | "privacy"
+    page:
+      | "landing"
+      | "consultation"
+      | "schedule-demo"
+      | "privacy"
+      | "probate-checklist"
   ) => void;
 }
 
@@ -34,9 +39,9 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
           <Button
             size="lg"
             className="bg-blue-600 hover:bg-blue-700 text-white px-8"
-            onClick={() => onNavigate("consultation")}
+            onClick={() => onNavigate("probate-checklist")}
           >
-            Free Consultation <ArrowRight className="ml-2" />
+            Free Probate Checklist <ArrowRight className="ml-2" />
           </Button>
           <Button
             size="lg"

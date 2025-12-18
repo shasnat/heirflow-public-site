@@ -5,7 +5,7 @@ import { Input, Textarea } from "./ui/input";
 import { supabase } from "../lib/supabase";
 
 interface ScheduleDemoPageProps {
-  onNavigate: (page: "landing" | "consultation" | "schedule-demo" | "privacy") => void;
+  onNavigate: (page: "landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist") => void;
 }
 
 export default function ScheduleDemoPage({ onNavigate }: ScheduleDemoPageProps) {
