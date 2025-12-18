@@ -37,3 +37,25 @@ body {
   min-height: 100vh;
 }
 
+/* Hide Brevo form country select dropdowns outside of form containers */
+select[name="SMS__COUNTRY_CODE"] {
+  display: none !important;
+}
+
+/* Show Brevo form elements only when inside a sib-form container */
+.sib-form select[name="SMS__COUNTRY_CODE"] {
+  display: block !important;
+}
+
+/* Hide any Brevo-related wrapper elements that aren't inside a sib-form */
+.sib-sms-input-wrapper:not(.sib-form .sib-sms-input-wrapper),
+.sib-container:not(.sib-form .sib-container),
+.sib-form-container:not(.sib-form .sib-form-container) {
+  display: none !important;
+}
+
+/* Hide any elements with sib- classes that aren't inside a form container */
+[class*="sib-"]:not(.sib-form):not(.sib-form [class*="sib-"]):not([class*="sib-form"]) {
+  display: none !important;
+}
+

@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { useEffect } from "react";
 import { Button } from "./ui/button";
 import FeatureCarousel from "./FeatureCarousel";
 
@@ -14,6 +14,39 @@ interface LandingPageProps {
 }
 
 export default function LandingPage({ onNavigate }: LandingPageProps) {
+  useEffect(() => {
+    // Clean up any stray Brevo form elements that might appear on the landing page
+    const cleanupBrevoElements = () => {
+      // Remove any select elements with SMS__COUNTRY_CODE that aren't inside a form
+      const countrySelects = document.querySelectorAll(
+        'select[name="SMS__COUNTRY_CODE"]'
+      );
+      countrySelects.forEach((select) => {
+        if (!select.closest(".sib-form")) {
+          select.remove();
+        }
+      });
+
+      // Remove any Brevo-related elements that aren't inside a form container
+      const brevoElements = document.querySelectorAll(
+        ".sib-container, .sib-form-container, .sib-sms-input-wrapper"
+      );
+      brevoElements.forEach((el) => {
+        if (!el.closest(".sib-form")) {
+          el.remove();
+        }
+      });
+    };
+
+    // Run cleanup on mount and after a short delay to catch dynamically added elements
+    cleanupBrevoElements();
+    const timeoutId = setTimeout(cleanupBrevoElements, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
   const scrollToVideo = () => {
     const videoSection = document.getElementById("video-section");
     if (videoSection) {
@@ -56,7 +89,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
             className="border-blue-600 text-blue-600 hover:bg-blue-50 px-8"
             onClick={() => onNavigate("probate-checklist")}
           >
-            Free Probate Survival Guide <ArrowRight className="ml-2" />
+            Free Probate Survival Guide
           </Button>
         </div>
       </section>
@@ -102,7 +135,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
               className="border-blue-600 text-blue-600 hover:bg-blue-50 px-8"
               onClick={() => onNavigate("probate-checklist")}
             >
-              Free Probate Survival Guide <ArrowRight className="ml-2" />
+              Free Probate Survival Guide
             </Button>
           </div>
         </div>
