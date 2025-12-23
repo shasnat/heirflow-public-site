@@ -6,12 +6,10 @@ type PageType = "landing" | "consultation" | "schedule-demo" | "privacy" | "prob
 
 interface NavigationProps {
   onNavigate: (page: PageType) => void;
-  currentPage: PageType;
 }
 
 export default function Navigation({
   onNavigate,
-  currentPage,
 }: NavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
