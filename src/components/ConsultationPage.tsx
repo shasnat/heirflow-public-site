@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { ArrowLeft } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input, Textarea } from "./ui/input";
 import { supabase } from "../lib/supabase";
 
 interface ConsultationPageProps {
-  onNavigate: (page: "landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist") => void;
+  onNavigate: (page: "landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist" | "team") => void;
 }
 
 export default function ConsultationPage({ onNavigate }: ConsultationPageProps) {
@@ -86,19 +85,8 @@ export default function ConsultationPage({ onNavigate }: ConsultationPageProps) 
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100">
-      {/* Header */}
-      <header className="container mx-auto px-4 py-6 flex items-center">
-        <button
-          onClick={() => onNavigate("landing")}
-          className="flex items-center gap-2 text-slate-600 hover:text-slate-800 transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span>Back</span>
-        </button>
-      </header>
-
       {/* Main Content */}
-      <section className="container mx-auto px-4 py-16 max-w-2xl">
+      <section className="container mx-auto px-4 py-8 md:py-12 max-w-2xl">
         <div className="bg-white rounded-lg shadow-lg border border-slate-200 p-8">
           <div className="flex items-center gap-3 mb-6">
             <h1 className="text-3xl font-bold text-slate-800">

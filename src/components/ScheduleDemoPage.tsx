@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { ArrowLeft } from "lucide-react";
 
 interface ScheduleDemoPageProps {
   onNavigate: (
@@ -9,6 +8,7 @@ interface ScheduleDemoPageProps {
       | "schedule-demo"
       | "privacy"
       | "probate-checklist"
+      | "team"
   ) => void;
 }
 
@@ -107,19 +107,8 @@ export default function ScheduleDemoPage({
         }}
       />
 
-      {/* Header */}
-      <header className="container mx-auto px-4 py-6 flex items-center">
-        <button
-          onClick={() => onNavigate("landing")}
-          className="flex items-center gap-2 text-slate-600 hover:text-slate-800 transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span>Back</span>
-        </button>
-      </header>
-
       {/* Main Content */}
-      <section className="container mx-auto px-4 py-16 max-w-2xl">
+      <section className="container mx-auto px-4 py-8 md:py-12 max-w-2xl">
         <div
           className="sib-form"
           style={{ textAlign: "center", backgroundColor: "#EFF2F7" }}

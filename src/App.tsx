@@ -1,30 +1,31 @@
 import { useState } from "react";
+import Navigation from "./components/Navigation";
 import LandingPage from "./components/LandingPage";
 import ConsultationPage from "./components/ConsultationPage";
 import ScheduleDemoPage from "./components/ScheduleDemoPage";
 import PrivacyPolicyPage from "./components/PrivacyPolicyPage";
 import ProbateChecklistPage from "./components/ProbateChecklistPage";
+import TeamPage from "./components/TeamPage";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<"landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist">("landing");
+  const [currentPage, setCurrentPage] = useState<"landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist" | "team">("landing");
 
-  const handleNavigate = (page: "landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist") => {
+  const handleNavigate = (page: "landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist" | "team") => {
     setCurrentPage(page);
     window.scrollTo(0, 0);
   };
 
-  switch (currentPage) {
-    case "consultation":
-      return <ConsultationPage onNavigate={handleNavigate} />;
-    case "schedule-demo":
-      return <ScheduleDemoPage onNavigate={handleNavigate} />;
-    case "privacy":
-      return <PrivacyPolicyPage onNavigate={handleNavigate} />;
-    case "probate-checklist":
-      return <ProbateChecklistPage onNavigate={handleNavigate} />;
-    default:
-      return <LandingPage onNavigate={handleNavigate} />;
-  }
+  return (
+    <>
+      <Navigation onNavigate={handleNavigate} currentPage={currentPage} />
+      {currentPage === "consultation" && <ConsultationPage onNavigate={handleNavigate} />}
+      {currentPage === "schedule-demo" && <ScheduleDemoPage onNavigate={handleNavigate} />}
+      {currentPage === "privacy" && <PrivacyPolicyPage onNavigate={handleNavigate} />}
+      {currentPage === "probate-checklist" && <ProbateChecklistPage onNavigate={handleNavigate} />}
+      {currentPage === "team" && <TeamPage onNavigate={handleNavigate} />}
+      {currentPage === "landing" && <LandingPage onNavigate={handleNavigate} />}
+    </>
+  );
 }
 
 export default App;
