@@ -14,16 +14,6 @@ function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Map URL paths to page types
-  const pathToPage: Record<string, PageType> = {
-    "/": "landing",
-    "/consultation": "consultation",
-    "/schedule-demo": "schedule-demo",
-    "/privacy": "privacy",
-    "/probate-checklist": "probate-checklist",
-    "/team": "team",
-  };
-
   const pageToPath: Record<PageType, string> = {
     landing: "/",
     consultation: "/consultation",
@@ -32,8 +22,6 @@ function AppContent() {
     "probate-checklist": "/probate-checklist",
     team: "/team",
   };
-
-  const currentPage = pathToPage[location.pathname] || "landing";
 
   const handleNavigate = (page: PageType) => {
     navigate(pageToPath[page]);
@@ -47,7 +35,7 @@ function AppContent() {
 
   return (
     <>
-      <Navigation onNavigate={handleNavigate} currentPage={currentPage} />
+      <Navigation onNavigate={handleNavigate} />
       <Routes>
         <Route path="/" element={<LandingPage onNavigate={handleNavigate} />} />
         <Route path="/consultation" element={<ConsultationPage onNavigate={handleNavigate} />} />
