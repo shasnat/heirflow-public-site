@@ -10,6 +10,7 @@ interface LandingPageProps {
       | "schedule-demo"
       | "privacy"
       | "probate-checklist"
+      | "team"
   ) => void;
 }
 
@@ -56,17 +57,8 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100">
-      {/* Header */}
-      <header className="container mx-auto px-4 py-6 flex items-center">
-        <div className="flex items-center gap-3">
-          <span className="text-2xl font-semibold text-slate-800">
-            HeirFlow
-          </span>
-        </div>
-      </header>
-
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-16 text-center">
+      <section className="container mx-auto px-4 py-12 md:py-16 text-center">
         <h1 className="text-5xl md:text-6xl font-bold text-slate-800 mb-4">
           <span className="text-blue-600">Guided</span> Probate Management
         </h1>
@@ -147,12 +139,19 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
           <p className="text-sm text-slate-500">
             Secure • Confidential • Professional
           </p>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-400 space-x-4">
             <button
               onClick={() => onNavigate("privacy")}
               className="hover:text-blue-600 transition-colors underline"
             >
               Privacy Policy
+            </button>
+            <span>•</span>
+            <button
+              onClick={() => onNavigate("team")}
+              className="hover:text-blue-600 transition-colors underline"
+            >
+              Our Team
             </button>
           </p>
         </div>
