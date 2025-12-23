@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import Navigation from "./components/Navigation";
 import LandingPage from "./components/LandingPage";
 import ConsultationPage from "./components/ConsultationPage";
@@ -7,24 +8,63 @@ import PrivacyPolicyPage from "./components/PrivacyPolicyPage";
 import ProbateChecklistPage from "./components/ProbateChecklistPage";
 import TeamPage from "./components/TeamPage";
 
-function App() {
-  const [currentPage, setCurrentPage] = useState<"landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist" | "team">("landing");
+type PageType = "landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist" | "team";
 
-  const handleNavigate = (page: "landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist" | "team") => {
-    setCurrentPage(page);
+function AppContent() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Map URL paths to page types
+  const pathToPage: Record<string, PageType> = {
+    "/": "landing",
+    "/consultation": "consultation",
+    "/schedule-demo": "schedule-demo",
+    "/privacy": "privacy",
+    "/probate-checklist": "probate-checklist",
+    "/team": "team",
+  };
+
+  const pageToPath: Record<PageType, string> = {
+    landing: "/",
+    consultation: "/consultation",
+    "schedule-demo": "/schedule-demo",
+    privacy: "/privacy",
+    "probate-checklist": "/probate-checklist",
+    team: "/team",
+  };
+
+  const currentPage = pathToPage[location.pathname] || "landing";
+
+  const handleNavigate = (page: PageType) => {
+    navigate(pageToPath[page]);
     window.scrollTo(0, 0);
   };
+
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <>
       <Navigation onNavigate={handleNavigate} currentPage={currentPage} />
-      {currentPage === "consultation" && <ConsultationPage onNavigate={handleNavigate} />}
-      {currentPage === "schedule-demo" && <ScheduleDemoPage onNavigate={handleNavigate} />}
-      {currentPage === "privacy" && <PrivacyPolicyPage onNavigate={handleNavigate} />}
-      {currentPage === "probate-checklist" && <ProbateChecklistPage onNavigate={handleNavigate} />}
-      {currentPage === "team" && <TeamPage onNavigate={handleNavigate} />}
-      {currentPage === "landing" && <LandingPage onNavigate={handleNavigate} />}
+      <Routes>
+        <Route path="/" element={<LandingPage onNavigate={handleNavigate} />} />
+        <Route path="/consultation" element={<ConsultationPage onNavigate={handleNavigate} />} />
+        <Route path="/schedule-demo" element={<ScheduleDemoPage onNavigate={handleNavigate} />} />
+        <Route path="/privacy" element={<PrivacyPolicyPage onNavigate={handleNavigate} />} />
+        <Route path="/probate-checklist" element={<ProbateChecklistPage onNavigate={handleNavigate} />} />
+        <Route path="/team" element={<TeamPage onNavigate={handleNavigate} />} />
+      </Routes>
     </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
   );
 }
 
