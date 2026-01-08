@@ -34,9 +34,13 @@ export default function Navigation({
               onNavigate("landing");
               setMobileMenuOpen(false);
             }}
-            className="flex items-center gap-2 text-2xl font-semibold text-slate-800 hover:text-blue-600 transition-colors"
+            className="flex items-center gap-2 transition-opacity hover:opacity-80"
           >
-            HeirFlow
+            <img 
+              src="/logo.png" 
+              alt="HeirFlow" 
+              className="h-[50px] w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}
