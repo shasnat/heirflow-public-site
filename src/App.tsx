@@ -7,8 +7,9 @@ import ScheduleDemoPage from "./components/ScheduleDemoPage";
 import PrivacyPolicyPage from "./components/PrivacyPolicyPage";
 import ProbateChecklistPage from "./components/ProbateChecklistPage";
 import TeamPage from "./components/TeamPage";
+import LimitedTimeEventPage from "./components/LimitedTimeEventPage";
 
-type PageType = "landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist" | "team";
+type PageType = "landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist" | "team" | "limited-time-event";
 
 function AppContent() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ function AppContent() {
     privacy: "/privacy",
     "probate-checklist": "/probate-checklist",
     team: "/team",
+    "limited-time-event": "/limited-time-event",
   };
 
   const handleNavigate = (page: PageType) => {
@@ -43,6 +45,7 @@ function AppContent() {
         <Route path="/privacy" element={<PrivacyPolicyPage onNavigate={handleNavigate} />} />
         <Route path="/probate-checklist" element={<ProbateChecklistPage onNavigate={handleNavigate} />} />
         <Route path="/team" element={<TeamPage onNavigate={handleNavigate} />} />
+        <Route path="/limited-time-event" element={<LimitedTimeEventPage onNavigate={handleNavigate} />} />
       </Routes>
     </>
   );

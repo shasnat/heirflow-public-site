@@ -2,7 +2,7 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-type PageType = "landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist" | "team";
+type PageType = "landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist" | "team" | "limited-time-event";
 
 interface NavigationProps {
   onNavigate: (page: PageType) => void;

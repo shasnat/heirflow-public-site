@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-interface ScheduleDemoPageProps {
+interface LimitedTimeEventPageProps {
   onNavigate: (
     page:
       | "landing"
@@ -9,12 +9,13 @@ interface ScheduleDemoPageProps {
       | "privacy"
       | "probate-checklist"
       | "team"
+      | "limited-time-event"
   ) => void;
 }
 
-export default function ScheduleDemoPage({
+export default function LimitedTimeEventPage({
   onNavigate,
-}: ScheduleDemoPageProps) {
+}: LimitedTimeEventPageProps) {
   useEffect(() => {
     // Load Calendly widget script
     const calendlyScript = document.createElement("script");
