@@ -749,14 +749,11 @@ export default function LimitedTimeEventPage({
                               Select one
                             </option>
                             <option className="sib-menu__item" value="1">
-                              Just notify me when HeirFlow launches
-                            </option>
-                            <option className="sib-menu__item" value="2">
-                              Send me updates as it's being built
-                            </option>
-                            <option className="sib-menu__item" value="3">
                               I'm interested in early adopter access &amp; special
                               pricing
+                            </option>
+                            <option className="sib-menu__item" value="2">
+                              Send me updates as HeirFlow is being built
                             </option>
                           </select>
                         </div>
