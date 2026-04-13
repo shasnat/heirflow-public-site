@@ -42,7 +42,7 @@ export default function ScheduleDemoPage({
         <div className="flex items-start justify-center w-full">
           <div
             className="calendly-inline-widget w-full"
-            data-url="https://calendly.com/shay-heirflow/heirflow-demo"
+            data-url="https://calendly.com/shay-heirflow/15-minute-meeting"
             style={{ minWidth: "800px", height: "700px", width: "100%" }}
           ></div>
         </div>
