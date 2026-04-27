@@ -126,7 +126,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
               className="bg-blue-600 hover:bg-blue-700 text-white px-8"
               onClick={handleContactSalesClick}
             >
-              Contact Sales
+              Contact Us
             </Button>
             <Button
               size="lg"

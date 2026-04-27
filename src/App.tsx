@@ -8,9 +8,11 @@ import PrivacyPolicyPage from "./components/PrivacyPolicyPage";
 import ProbateChecklistPage from "./components/ProbateChecklistPage";
 import TeamPage from "./components/TeamPage";
 import LimitedTimeEventPage from "./components/LimitedTimeEventPage";
+import Ad020LandingPage from "./components/Ad020LandingPage";
+import Ad020ScheduleDemoPage from "./components/Ad020ScheduleDemoPage";
 import { trackPageView } from "./lib/metaPixel";
 
-type PageType = "landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist" | "team" | "limited-time-event";
+type PageType = "landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist" | "team" | "limited-time-event" | "ad-020-landing" | "ad-020-schedule-demo";
 
 function AppContent() {
   const navigate = useNavigate();
@@ -25,6 +27,8 @@ function AppContent() {
     "probate-checklist": "/probate-checklist",
     team: "/team",
     "limited-time-event": "/limited-time-event",
+    "ad-020-landing": "/lp/020-probate-help",
+    "ad-020-schedule-demo": "/lp/020-probate-help/schedule-demo",
   };
 
   const handleNavigate = (page: PageType) => {
@@ -46,9 +50,11 @@ function AppContent() {
     trackPageView();
   }, [location.pathname]);
 
+  const isAdLandingPage = location.pathname.startsWith("/lp/020-probate-help");
+
   return (
     <>
-      <Navigation onNavigate={handleNavigate} />
+      {!isAdLandingPage && <Navigation onNavigate={handleNavigate} />}
       <Routes>
         <Route path="/" element={<LandingPage onNavigate={handleNavigate} />} />
         <Route path="/consultation" element={<ConsultationPage onNavigate={handleNavigate} />} />
@@ -57,6 +63,8 @@ function AppContent() {
         <Route path="/probate-checklist" element={<ProbateChecklistPage onNavigate={handleNavigate} />} />
         <Route path="/team" element={<TeamPage onNavigate={handleNavigate} />} />
         <Route path="/limited-time-event" element={<LimitedTimeEventPage onNavigate={handleNavigate} />} />
+        <Route path="/lp/020-probate-help" element={<Ad020LandingPage onNavigate={handleNavigate} />} />
+        <Route path="/lp/020-probate-help/schedule-demo" element={<Ad020ScheduleDemoPage onNavigate={handleNavigate} />} />
       </Routes>
     </>
   );
