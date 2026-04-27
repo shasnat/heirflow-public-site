@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Button } from "./ui/button";
 import FeatureCarousel from "./FeatureCarousel";
-import { trackEvent } from "../lib/metaPixel";
+import { trackEvent, trackStandardEvent } from "../lib/metaPixel";
 
 interface LandingPageProps {
   onNavigate: (
@@ -57,6 +57,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
   };
 
   const handleContactSalesClick = () => {
+    trackStandardEvent("Contact", { pageName: "landing" });
     // Example custom event tracking for a high-intent CTA.
     trackEvent("ContactSalesClick", { pageName: "landing" });
     onNavigate("schedule-demo");

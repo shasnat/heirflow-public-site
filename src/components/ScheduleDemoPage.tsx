@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { trackStandardEvent } from "../lib/metaPixel";
 
 interface ScheduleDemoPageProps {
   onNavigate: (
@@ -16,6 +17,8 @@ export default function ScheduleDemoPage({
   onNavigate,
 }: ScheduleDemoPageProps) {
   useEffect(() => {
+    trackStandardEvent("Schedule", { pageName: "schedule-demo" });
+
     // Load Calendly widget script
     const calendlyScript = document.createElement("script");
     calendlyScript.src = "https://assets.calendly.com/assets/external/widget.js";

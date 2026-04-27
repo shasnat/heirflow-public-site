@@ -1,5 +1,5 @@
 import { Button } from "./ui/button";
-import { trackEvent } from "../lib/metaPixel";
+import { trackEvent, trackStandardEvent } from "../lib/metaPixel";
 import FeatureCarousel from "./FeatureCarousel";
 
 interface Ad020LandingPageProps {
@@ -19,6 +19,10 @@ interface Ad020LandingPageProps {
 
 export default function Ad020LandingPage({ onNavigate }: Ad020LandingPageProps) {
   const handleBookCallClick = () => {
+    trackStandardEvent("Contact", {
+      pageName: "ad-020-landing",
+      adId: "ad-020",
+    });
     trackEvent("Ad020BookCallClick", {
       adId: "ad-020",
       pageName: "ad-020-landing",

@@ -24,6 +24,28 @@ export const trackPageView = (): void => {
   window.fbq?.("track", "PageView");
 };
 
+type StandardMetaEvent = "Contact" | "Schedule" | "Lead" | "CompleteRegistration";
+
+/**
+ * Tracks standard Meta Pixel events used for ad optimization/reporting.
+ * Prefer this for key conversion milestones (Contact, Schedule, Lead, etc.).
+ */
+export const trackStandardEvent = (
+  eventName: StandardMetaEvent,
+  params?: Record<string, unknown>
+): void => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  if (params) {
+    window.fbq?.("track", eventName, params);
+    return;
+  }
+
+  window.fbq?.("track", eventName);
+};
+
 /**
  * Tracks custom Meta Pixel events.
  * Example: trackEvent("ContactSalesClick", { pageName: "landing" });
