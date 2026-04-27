@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Navigation from "./components/Navigation";
 import LandingPage from "./components/LandingPage";
 import ConsultationPage from "./components/ConsultationPage";
@@ -8,12 +8,14 @@ import PrivacyPolicyPage from "./components/PrivacyPolicyPage";
 import ProbateChecklistPage from "./components/ProbateChecklistPage";
 import TeamPage from "./components/TeamPage";
 import LimitedTimeEventPage from "./components/LimitedTimeEventPage";
+import { trackPageView } from "./lib/metaPixel";
 
 type PageType = "landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist" | "team" | "limited-time-event";
 
 function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
+  const hasTrackedInitialRouteRef = useRef(false);
 
   const pageToPath: Record<PageType, string> = {
     landing: "/",
@@ -33,6 +35,15 @@ function AppContent() {
   // Scroll to top on route change
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  // Track page views for client-side route transitions.
+  useEffect(() => {
+    if (!hasTrackedInitialRouteRef.current) {
+      hasTrackedInitialRouteRef.current = true;
+      return;
+    }
+    trackPageView();
   }, [location.pathname]);
 
   return (

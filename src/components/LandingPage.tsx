@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Button } from "./ui/button";
 import FeatureCarousel from "./FeatureCarousel";
+import { trackEvent } from "../lib/metaPixel";
 
 interface LandingPageProps {
   onNavigate: (
@@ -53,6 +54,12 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
     if (videoSection) {
       videoSection.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+  };
+
+  const handleContactSalesClick = () => {
+    // Example custom event tracking for a high-intent CTA.
+    trackEvent("ContactSalesClick", { pageName: "landing" });
+    onNavigate("schedule-demo");
   };
 
   return (
@@ -117,7 +124,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
             <Button
               size="lg"
               className="bg-blue-600 hover:bg-blue-700 text-white px-8"
-              onClick={() => onNavigate("schedule-demo")}
+              onClick={handleContactSalesClick}
             >
               Contact Sales
             </Button>
