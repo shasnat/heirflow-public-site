@@ -50,11 +50,9 @@ function AppContent() {
     trackPageView();
   }, [location.pathname]);
 
-  const isAdLandingPage = location.pathname.startsWith("/lp/020-probate-help");
-
   return (
     <>
-      {!isAdLandingPage && <Navigation onNavigate={handleNavigate} />}
+      <Navigation onNavigate={handleNavigate} />
       <Routes>
         <Route path="/" element={<LandingPage onNavigate={handleNavigate} />} />
         <Route path="/consultation" element={<ConsultationPage onNavigate={handleNavigate} />} />
