@@ -10,9 +10,26 @@ import TeamPage from "./components/TeamPage";
 import LimitedTimeEventPage from "./components/LimitedTimeEventPage";
 import Ad020LandingPage from "./components/Ad020LandingPage";
 import Ad020ScheduleDemoPage from "./components/Ad020ScheduleDemoPage";
+import Ad020V2LandingPage from "./components/Ad020V2LandingPage";
+import Ad020V2ScheduleDemoPage from "./components/Ad020V2ScheduleDemoPage";
+import Ad020V3LandingPage from "./components/Ad020V3LandingPage";
+import Ad020V3LeadFormPage from "./components/Ad020V3LeadFormPage";
 import { trackPageView } from "./lib/metaPixel";
 
-type PageType = "landing" | "consultation" | "schedule-demo" | "privacy" | "probate-checklist" | "team" | "limited-time-event" | "ad-020-landing" | "ad-020-schedule-demo";
+type PageType =
+  | "landing"
+  | "consultation"
+  | "schedule-demo"
+  | "privacy"
+  | "probate-checklist"
+  | "team"
+  | "limited-time-event"
+  | "ad-020-landing"
+  | "ad-020-schedule-demo"
+  | "ad-020-v2-landing"
+  | "ad-020-v2-schedule-demo"
+  | "ad-020-v3-landing"
+  | "ad-020-v3-schedule-demo";
 
 function AppContent() {
   const navigate = useNavigate();
@@ -29,6 +46,10 @@ function AppContent() {
     "limited-time-event": "/limited-time-event",
     "ad-020-landing": "/lp/020-probate-help",
     "ad-020-schedule-demo": "/lp/020-probate-help/schedule-demo",
+    "ad-020-v2-landing": "/lp/020-probate-help/v2",
+    "ad-020-v2-schedule-demo": "/lp/020-probate-help/v2/schedule-demo",
+    "ad-020-v3-landing": "/lp/020-probate-help/v3",
+    "ad-020-v3-schedule-demo": "/lp/020-probate-help/v3/schedule-demo",
   };
 
   const handleNavigate = (page: PageType) => {
@@ -63,6 +84,10 @@ function AppContent() {
         <Route path="/limited-time-event" element={<LimitedTimeEventPage onNavigate={handleNavigate} />} />
         <Route path="/lp/020-probate-help" element={<Ad020LandingPage onNavigate={handleNavigate} />} />
         <Route path="/lp/020-probate-help/schedule-demo" element={<Ad020ScheduleDemoPage onNavigate={handleNavigate} />} />
+        <Route path="/lp/020-probate-help/v2" element={<Ad020V2LandingPage onNavigate={handleNavigate} />} />
+        <Route path="/lp/020-probate-help/v2/schedule-demo" element={<Ad020V2ScheduleDemoPage onNavigate={handleNavigate} />} />
+        <Route path="/lp/020-probate-help/v3" element={<Ad020V3LandingPage onNavigate={handleNavigate} />} />
+        <Route path="/lp/020-probate-help/v3/schedule-demo" element={<Ad020V3LeadFormPage onNavigate={handleNavigate} />} />
       </Routes>
     </>
   );
