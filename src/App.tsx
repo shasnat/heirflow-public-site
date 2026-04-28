@@ -14,6 +14,8 @@ import Ad020V2LandingPage from "./components/Ad020V2LandingPage";
 import Ad020V2ScheduleDemoPage from "./components/Ad020V2ScheduleDemoPage";
 import Ad020V3LandingPage from "./components/Ad020V3LandingPage";
 import Ad020V3LeadFormPage from "./components/Ad020V3LeadFormPage";
+import Ad020V4LandingPage from "./components/Ad020V4LandingPage";
+import Ad020V4LeadFormPage from "./components/Ad020V4LeadFormPage";
 import { trackPageView } from "./lib/metaPixel";
 
 type PageType =
@@ -29,7 +31,9 @@ type PageType =
   | "ad-020-v2-landing"
   | "ad-020-v2-schedule-demo"
   | "ad-020-v3-landing"
-  | "ad-020-v3-schedule-demo";
+  | "ad-020-v3-schedule-demo"
+  | "ad-020-v4-landing"
+  | "ad-020-v4-schedule-demo";
 
 function AppContent() {
   const navigate = useNavigate();
@@ -50,6 +54,8 @@ function AppContent() {
     "ad-020-v2-schedule-demo": "/lp/020-probate-help/v2/schedule-demo",
     "ad-020-v3-landing": "/lp/020-probate-help/v3",
     "ad-020-v3-schedule-demo": "/lp/020-probate-help/v3/schedule-demo",
+    "ad-020-v4-landing": "/lp/020-probate-help/v4",
+    "ad-020-v4-schedule-demo": "/lp/020-probate-help/v4/schedule-demo",
   };
 
   const handleNavigate = (page: PageType) => {
@@ -88,6 +94,8 @@ function AppContent() {
         <Route path="/lp/020-probate-help/v2/schedule-demo" element={<Ad020V2ScheduleDemoPage onNavigate={handleNavigate} />} />
         <Route path="/lp/020-probate-help/v3" element={<Ad020V3LandingPage onNavigate={handleNavigate} />} />
         <Route path="/lp/020-probate-help/v3/schedule-demo" element={<Ad020V3LeadFormPage onNavigate={handleNavigate} />} />
+        <Route path="/lp/020-probate-help/v4" element={<Ad020V4LandingPage onNavigate={handleNavigate} />} />
+        <Route path="/lp/020-probate-help/v4/schedule-demo" element={<Ad020V4LeadFormPage onNavigate={handleNavigate} />} />
       </Routes>
     </>
   );
