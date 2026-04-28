@@ -226,7 +226,11 @@ export default function Ad020V3LeadFormPage({
                   <div className="sib-input sib-form-block">
                     <div className="form__entry entry_block">
                       <div className="form__label-row">
-                        <label className="entry__label" htmlFor="FIRSTNAME">
+                        <label
+                          className="entry__label"
+                          htmlFor="FIRSTNAME"
+                          data-required="*"
+                        >
                           Name
                         </label>
                         <div className="entry__field">
@@ -241,6 +245,7 @@ export default function Ad020V3LeadFormPage({
                           />
                         </div>
                       </div>
+                      <label className="entry__error entry__error--primary"></label>
                     </div>
                   </div>
                 </div>
@@ -249,7 +254,11 @@ export default function Ad020V3LeadFormPage({
                   <div className="sib-input sib-form-block">
                     <div className="form__entry entry_block">
                       <div className="form__label-row">
-                        <label className="entry__label" htmlFor="EMAIL">
+                        <label
+                          className="entry__label"
+                          htmlFor="EMAIL"
+                          data-required="*"
+                        >
                           Email
                         </label>
                         <div className="entry__field">
@@ -264,6 +273,7 @@ export default function Ad020V3LeadFormPage({
                           />
                         </div>
                       </div>
+                      <label className="entry__error entry__error--primary"></label>
                     </div>
                   </div>
                 </div>
@@ -272,7 +282,11 @@ export default function Ad020V3LeadFormPage({
                   <div className="sib-sms-field sib-form-block">
                     <div className="form__entry entry_block">
                       <div className="form__label-row">
-                        <label className="entry__label" htmlFor="LANDLINE_NUMBER">
+                        <label
+                          className="entry__label"
+                          htmlFor="LANDLINE_NUMBER"
+                          data-required="*"
+                        >
                           Phone Number
                         </label>
                         <div className="sib-sms-input-wrapper" style={{ direction: "ltr" }}>
@@ -314,6 +328,8 @@ export default function Ad020V3LeadFormPage({
                           </div>
                         </div>
                       </div>
+                      <label className="entry__error entry__error--primary"></label>
+                      <label className="entry__error entry__error--secondary"></label>
                     </div>
                   </div>
                 </div>
@@ -336,6 +352,7 @@ export default function Ad020V3LeadFormPage({
                           />
                         </div>
                       </div>
+                      <label className="entry__error entry__error--primary"></label>
                     </div>
                   </div>
                 </div>
@@ -346,7 +363,8 @@ export default function Ad020V3LeadFormPage({
                       <div className="form__label-row">
                         <label
                           className="entry__label"
-                          htmlFor="HEIRFLOW_INTEREST"
+                          htmlFor="SHORT_ANSWER"
+                          data-required="*"
                         >
                           Interest in HeirFlow
                         </label>
@@ -355,12 +373,15 @@ export default function Ad020V3LeadFormPage({
                             className="input"
                             id="SHORT_ANSWER"
                             name="SHORT_ANSWER"
+                            autoComplete="off"
+                            data-required="true"
                             rows={2}
                             maxLength={500}
                             required
                           />
                         </div>
                       </div>
+                      <label className="entry__error entry__error--primary"></label>
                     </div>
                   </div>
                 </div>
