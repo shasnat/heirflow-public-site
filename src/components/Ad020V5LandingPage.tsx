@@ -280,27 +280,17 @@ export default function Ad020V5LandingPage({ onNavigate }: Ad020V5LandingPagePro
           <div className="container mx-auto max-w-6xl px-4">
             <div className="overflow-hidden rounded-3xl bg-white/90 p-6 shadow-sm ring-1 ring-stone-200/80 md:p-10 lg:p-12">
               <div className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-12">
-                <div>
+                <div className="max-w-xl space-y-4">
                   <h2 className="text-3xl font-bold text-slate-900 md:text-4xl">
                     Start with a quick intro call
                   </h2>
-                  <p className="mt-4 text-lg text-slate-600 md:text-xl">
+                  <p className="text-lg text-slate-600 md:text-xl">
                     We&apos;ll see if HeirFlow makes sense for your situation before showing you
                     the full platform.
                   </p>
-                  <div className="mt-8 flex flex-col items-start gap-3">
-                    <Button
-                      size="lg"
-                      className="rounded-xl bg-blue-600 px-8 py-6 text-base font-semibold text-white shadow-md hover:bg-blue-700"
-                      onClick={() => handleBookIntroClick("See if it's a fit")}
-                    >
-                      <Calendar className="h-5 w-5" aria-hidden />
-                      See if it&apos;s a fit
-                    </Button>
-                    <p className="text-sm text-slate-500 md:text-[0.9375rem]">
-                      Book in seconds • 15-minute intro • No pressure
-                    </p>
-                  </div>
+                  <p className="pt-1 text-sm text-slate-500 md:text-[0.9375rem]">
+                    Book in seconds • 15-minute intro • No pressure
+                  </p>
                 </div>
                 <div className="min-h-[560px] w-full overflow-x-auto rounded-xl border border-slate-100 bg-slate-50/50">
                   <div
