@@ -113,7 +113,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
           <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-slate-200">
             <div className="aspect-video bg-slate-100">
               <iframe
-                src="https://www.loom.com/embed/452cff9cc6f045c5b0574aa26e104b1e"
+                src="https://www.loom.com/embed/cc4818e32c974bb483150f1af1d7abc1"
                 frameBorder="0"
                 allowFullScreen
                 className="w-full h-full"
