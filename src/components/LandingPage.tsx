@@ -102,7 +102,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 </h1>
                 <p className="mt-6 max-w-xl text-lg text-slate-600 md:text-xl">
                   HeirFlow guides your firm through every step of probate and
-                  estate administration—automatically surfacing the exact forms
+                  estate administration, automatically surfacing the exact forms
                   and local requirements for the county you&apos;re filing in.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -139,7 +139,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 </p>
               </div>
 
-              {/* Product visual — county selector to tailored forms */}
+              {/* Product visual: county selector to tailored forms */}
               <div className="relative">
                 <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xl md:p-8">
                   <div className="flex items-center justify-between">
@@ -218,7 +218,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
               </h2>
               <p className="mt-4 text-lg text-slate-600">
                 Every county does things a little differently. Keeping it all
-                straight slows your firm down—and one wrong form can mean a
+                straight slows your firm down, and one wrong form can mean a
                 rejection.
               </p>
             </div>
@@ -257,7 +257,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
           </div>
         </section>
 
-        {/* County differentiator — centerpiece */}
+        {/* County differentiator: centerpiece */}
         <section className="bg-[#faf8f5] py-16 md:py-24">
           <div className="container mx-auto max-w-6xl px-4">
             <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
@@ -272,7 +272,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 </h2>
                 <p className="mt-5 text-lg text-slate-600">
                   Tell HeirFlow where you&apos;re filing and it instantly maps
-                  the case to that county&apos;s requirements—surfacing the right
+                  the case to that county&apos;s requirements, surfacing the right
                   forms, local rules, and supporting documents for that specific
                   Surrogate&apos;s Court.
                 </p>
@@ -337,7 +337,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 How HeirFlow works
               </h2>
               <p className="mt-4 text-lg text-slate-600">
-                From intake to court-ready filings—guided every step of the way.
+                From intake to court-ready filings, guided every step of the way.
               </p>
             </div>
             <div className="mt-12 grid gap-6 md:grid-cols-3">
@@ -408,7 +408,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 {
                   Icon: ShieldCheck,
                   title: "Reduce filing errors",
-                  body: "Submit the correct, complete paperwork the first time—fewer rejections and delays.",
+                  body: "Submit the correct, complete paperwork the first time and cut down on rejections and delays.",
                 },
                 {
                   Icon: Users,
@@ -468,7 +468,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
           </div>
         </section>
 
-        {/* Final CTA — inline Calendly */}
+        {/* Final CTA: inline Calendly */}
         <section id="book-call" className="bg-white py-16 md:py-20">
           <div className="container mx-auto max-w-6xl px-4">
             <div className="overflow-hidden rounded-3xl bg-[#faf8f5] p-6 shadow-sm ring-1 ring-slate-200/80 md:p-10 lg:p-12">

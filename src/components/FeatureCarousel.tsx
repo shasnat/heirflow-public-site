@@ -83,7 +83,7 @@ const features = [
     tagline: "Right forms for every NY county",
     title: "County-Aware Document Recommendations",
     description:
-      "HeirFlow detects the filing county and recommends the exact court documents that county's Surrogate's Court requires—no more cross-referencing local rules.",
+      "HeirFlow detects the filing county and recommends the exact court documents that county's Surrogate's Court requires, so you never have to cross-reference local rules.",
     features: [
       "County-specific required forms",
       "Auto-filled templates",
@@ -127,7 +127,7 @@ const features = [
     tagline: "Onboard staff faster",
     title: "Built-in Education",
     description:
-      "Contextual guidance at every step means junior staff and paralegals can run matters confidently—without constant supervision.",
+      "Contextual guidance at every step means junior staff and paralegals can run matters confidently, without constant supervision.",
     features: [
       "Step-by-step explanations",
       "Legal requirement guides",
