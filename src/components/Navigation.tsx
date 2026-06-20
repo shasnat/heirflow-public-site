@@ -1,6 +1,7 @@
 import { Calendar, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
+import { trackEvent, trackStandardEvent } from "../lib/metaPixel";
 
 type PageType =
   | "landing"
@@ -16,6 +17,20 @@ interface NavigationProps {
 }
 
 export default function Navigation({ onNavigate }: NavigationProps) {
+  const handleBookDemo = () => {
+    trackStandardEvent("Contact", { pageName: "nav" });
+    trackEvent("BookDemoClick", { pageName: "nav", ctaText: "Nav - Book a demo" });
+
+    // On pages that have the inline Calendly section (the landing page), scroll
+    // to it. Otherwise fall back to the dedicated schedule-demo route.
+    const bookCall = document.getElementById("book-call");
+    if (bookCall) {
+      bookCall.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+    onNavigate("schedule-demo");
+  };
+
   return (
     <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur">
       <div className="container mx-auto px-4">
@@ -37,7 +52,7 @@ export default function Navigation({ onNavigate }: NavigationProps) {
             </div>
             <Button
               className="shrink-0 bg-blue-600 px-4 font-semibold text-white shadow-sm hover:bg-blue-700 sm:px-6"
-              onClick={() => onNavigate("schedule-demo")}
+              onClick={handleBookDemo}
             >
               <Calendar className="h-4 w-4" aria-hidden />
               <span className="hidden sm:inline">Book a demo</span>
