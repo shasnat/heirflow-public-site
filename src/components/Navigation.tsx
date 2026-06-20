@@ -19,7 +19,7 @@ interface NavigationProps {
 export default function Navigation({ onNavigate }: NavigationProps) {
   const handleBookDemo = () => {
     trackStandardEvent("Contact", { pageName: "nav" });
-    trackEvent("BookDemoClick", { pageName: "nav", ctaText: "Nav - Book a demo" });
+    trackEvent("BookDemoClick", { pageName: "nav", ctaText: "Nav - Book a call" });
 
     // On pages that have the inline Calendly section (the landing page), scroll
     // to it. Otherwise fall back to the dedicated schedule-demo route.
@@ -55,8 +55,8 @@ export default function Navigation({ onNavigate }: NavigationProps) {
               onClick={handleBookDemo}
             >
               <Calendar className="h-4 w-4" aria-hidden />
-              <span className="hidden sm:inline">Book a demo</span>
-              <span className="sm:hidden">Book demo</span>
+              <span className="hidden sm:inline">Book a call</span>
+              <span className="sm:hidden">Book a call</span>
             </Button>
           </div>
         </div>
