@@ -1,4 +1,14 @@
 import { useEffect } from "react";
+import {
+  AlertTriangle,
+  Calendar,
+  Check,
+  Clock,
+  GraduationCap,
+  MapPin,
+  ShieldCheck,
+  Users,
+} from "lucide-react";
 import { Button } from "./ui/button";
 import FeatureCarousel from "./FeatureCarousel";
 import { trackEvent, trackStandardEvent } from "../lib/metaPixel";
@@ -15,11 +25,13 @@ interface LandingPageProps {
   ) => void;
 }
 
+const CALENDLY_URL =
+  "https://calendly.com/shay-heirflow/15-minute-meeting?hide_event_type_details=1";
+
 export default function LandingPage({ onNavigate }: LandingPageProps) {
   useEffect(() => {
     // Clean up any stray Brevo form elements that might appear on the landing page
     const cleanupBrevoElements = () => {
-      // Remove any select elements with SMS__COUNTRY_CODE that aren't inside a form
       const countrySelects = document.querySelectorAll(
         'select[name="SMS__COUNTRY_CODE"]'
       );
@@ -29,7 +41,6 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
         }
       });
 
-      // Remove any Brevo-related elements that aren't inside a form container
       const brevoElements = document.querySelectorAll(
         ".sib-container, .sib-form-container, .sib-sms-input-wrapper"
       );
@@ -40,128 +51,515 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
       });
     };
 
-    // Run cleanup on mount and after a short delay to catch dynamically added elements
     cleanupBrevoElements();
     const timeoutId = setTimeout(cleanupBrevoElements, 100);
 
+    // Load the Calendly widget script for the inline booking embed.
+    const calendlyScript = document.createElement("script");
+    calendlyScript.src = "https://assets.calendly.com/assets/external/widget.js";
+    calendlyScript.async = true;
+    document.body.appendChild(calendlyScript);
+
     return () => {
       clearTimeout(timeoutId);
+      if (document.body.contains(calendlyScript)) {
+        document.body.removeChild(calendlyScript);
+      }
     };
   }, []);
 
   const scrollToVideo = () => {
-    const videoSection = document.getElementById("video-section");
-    if (videoSection) {
-      videoSection.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    document
+      .getElementById("video-section")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const handleContactSalesClick = () => {
+  const handleBookDemoClick = (ctaText: string) => {
     trackStandardEvent("Contact", { pageName: "landing" });
-    // Example custom event tracking for a high-intent CTA.
-    trackEvent("ContactSalesClick", { pageName: "landing" });
-    onNavigate("schedule-demo");
+    trackEvent("BookDemoClick", { pageName: "landing", ctaText });
+    document.getElementById("book-call")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100">
-      {/* Hero Section */}
-      <section className="container mx-auto px-4 py-12 md:py-16 text-center">
-        <h1 className="text-5xl md:text-6xl font-bold text-slate-800 mb-4">
-          <span className="text-blue-600">Guided</span> Probate Management
-        </h1>
-        <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-8">
-          Streamline every step of probate and estate administration with clear
-          timelines, smart document recommendations, and built-in education—all
-          in one secure platform.
-        </p>
-        <div className="flex items-center justify-center gap-4 flex-wrap">
-          <Button
-            size="lg"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8"
-            onClick={scrollToVideo}
-          >
-            See it in Action
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            className="border-blue-600 text-blue-600 hover:bg-blue-50 px-8"
-            onClick={() => onNavigate("probate-checklist")}
-          >
-            Free Probate Survival Guide
-          </Button>
-        </div>
-      </section>
+    <div className="min-h-screen bg-white text-slate-900">
+      <main>
+        {/* Hero */}
+        <section className="relative overflow-hidden bg-[#faf8f5]">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-blue-200/40 blur-3xl"
+          />
+          <div className="container relative mx-auto max-w-6xl px-4 py-16 md:py-20 lg:py-24">
+            <div className="grid items-center gap-12 lg:grid-cols-2">
+              <div>
+                <p className="mb-5 inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-blue-800">
+                  <MapPin className="h-3.5 w-3.5" aria-hidden />
+                  Built for New York legal professionals
+                </p>
+                <h1 className="text-4xl font-bold leading-tight tracking-tight text-slate-900 md:text-5xl lg:text-[3.25rem] lg:leading-[1.1]">
+                  Probate paperwork that&apos;s right for{" "}
+                  <span className="text-blue-600">every NY county</span>
+                </h1>
+                <p className="mt-6 max-w-xl text-lg text-slate-600 md:text-xl">
+                  HeirFlow guides your firm through every step of probate and
+                  estate administration, automatically surfacing the exact forms
+                  and local requirements for the county you&apos;re filing in.
+                </p>
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <Button
+                    size="lg"
+                    className="rounded-xl bg-blue-600 px-8 py-6 text-base font-semibold text-white shadow-md hover:bg-blue-700"
+                    onClick={() => handleBookDemoClick("Hero - Book a demo")}
+                  >
+                    <Calendar className="h-5 w-5" aria-hidden />
+                    Book a demo
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="rounded-xl border-slate-300 px-8 py-6 text-base font-semibold text-slate-800 hover:bg-slate-50"
+                    onClick={scrollToVideo}
+                  >
+                    Watch the demo
+                  </Button>
+                </div>
+                <p className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-500">
+                  <span className="flex items-center gap-2">
+                    <Check className="h-4 w-4 text-blue-500" strokeWidth={3} aria-hidden />
+                    15-minute call
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <Check className="h-4 w-4 text-blue-500" strokeWidth={3} aria-hidden />
+                    No obligation
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <Check className="h-4 w-4 text-blue-500" strokeWidth={3} aria-hidden />
+                    See if it fits your firm
+                  </span>
+                </p>
+              </div>
 
-      {/* Feature Section */}
-      <section className="container mx-auto px-4 py-16">
-        <FeatureCarousel />
-      </section>
-
-      {/* Intake Process Demo Video */}
-      <section id="video-section" className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-slate-800 mb-3">
-              See It In Action
-            </h2>
-            <p className="text-lg text-slate-600">
-              Watch a demo of our Intake process
-            </p>
-          </div>
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-slate-200">
-            <div className="aspect-video bg-slate-100">
-              <iframe
-                src="https://www.loom.com/embed/cc4818e32c974bb483150f1af1d7abc1"
-                frameBorder="0"
-                allowFullScreen
-                className="w-full h-full"
-                title="HeirFlow Intake Process Demo"
-              />
+              {/* Product visual: county selector to tailored forms */}
+              <div className="relative">
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xl md:p-8">
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm font-medium text-slate-500">
+                      Filing county
+                    </p>
+                    <span className="flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">
+                      <MapPin className="h-4 w-4" aria-hidden />
+                      Kings County
+                    </span>
+                  </div>
+                  <div className="mt-5 border-t border-slate-100 pt-5">
+                    <p className="mb-3 text-sm font-medium text-slate-600">
+                      Required for this county
+                    </p>
+                    <div className="space-y-3">
+                      {[
+                        "Probate Petition (P-1)",
+                        "Notice of Probate",
+                        "Waiver & Consent",
+                        "Will Witness Affidavit",
+                      ].map((doc) => (
+                        <div
+                          key={doc}
+                          className="flex items-center justify-between rounded-lg border border-slate-200 bg-slate-50 p-3"
+                        >
+                          <div className="flex items-center gap-3">
+                            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 text-green-600">
+                              <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden />
+                            </span>
+                            <span className="text-sm font-medium text-slate-800">
+                              {doc}
+                            </span>
+                          </div>
+                          <span className="rounded bg-blue-50 px-2 py-1 text-xs font-medium text-blue-600">
+                            Auto-detected
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="flex items-center justify-center gap-4 flex-wrap mt-8">
-            <Button
-              size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8"
-              onClick={handleContactSalesClick}
-            >
-              Contact Us
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-blue-600 text-blue-600 hover:bg-blue-50 px-8"
-              onClick={() => onNavigate("probate-checklist")}
-            >
-              Free Probate Survival Guide
-            </Button>
+        </section>
+
+        {/* Trust bar */}
+        <section className="border-y border-slate-200 bg-white">
+          <div className="container mx-auto max-w-6xl px-4 py-6">
+            <div className="flex flex-col items-center justify-center gap-4 text-center text-sm font-medium text-slate-600 sm:flex-row sm:gap-8 md:text-base">
+              <span className="flex items-center gap-2">
+                <Users className="h-5 w-5 text-blue-600" aria-hidden />
+                Built with New York probate attorneys
+              </span>
+              <span className="hidden text-slate-300 sm:inline">•</span>
+              <span className="flex items-center gap-2">
+                <MapPin className="h-5 w-5 text-blue-600" aria-hidden />
+                Covers all 62 NY counties
+              </span>
+              <span className="hidden text-slate-300 sm:inline">•</span>
+              <span className="flex items-center gap-2">
+                <ShieldCheck className="h-5 w-5 text-blue-600" aria-hidden />
+                Used by solo &amp; small firms
+              </span>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* Problem section */}
+        <section className="bg-white py-16 md:py-20">
+          <div className="container mx-auto max-w-6xl px-4">
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 className="text-3xl font-bold text-slate-900 md:text-4xl">
+                Probate in New York is a moving target
+              </h2>
+              <p className="mt-4 text-lg text-slate-600">
+                Every county does things a little differently. Keeping it all
+                straight slows your firm down, and one wrong form can mean a
+                rejection.
+              </p>
+            </div>
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {[
+                {
+                  Icon: MapPin,
+                  title: "Per-county guesswork",
+                  body: "Each Surrogate's Court has its own forms and local quirks. Tracking them by hand wastes hours.",
+                },
+                {
+                  Icon: AlertTriangle,
+                  title: "Mistakes & rejections",
+                  body: "A missing affidavit or the wrong version of a form means delays, re-filings, and frustrated clients.",
+                },
+                {
+                  Icon: GraduationCap,
+                  title: "Slow staff onboarding",
+                  body: "New paralegals and associates can't run matters confidently without constant supervision.",
+                },
+              ].map(({ Icon, title, body }) => (
+                <div
+                  key={title}
+                  className="rounded-2xl border border-slate-100 bg-slate-50 p-7 shadow-sm"
+                >
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                    <Icon className="h-5 w-5" aria-hidden />
+                  </span>
+                  <h3 className="mt-5 text-lg font-bold text-slate-900">
+                    {title}
+                  </h3>
+                  <p className="mt-2 text-slate-600">{body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* County differentiator: centerpiece */}
+        <section className="bg-[#faf8f5] py-16 md:py-24">
+          <div className="container mx-auto max-w-6xl px-4">
+            <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+              <div>
+                <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-blue-800">
+                  <MapPin className="h-3.5 w-3.5" aria-hidden />
+                  The HeirFlow difference
+                </p>
+                <h2 className="text-3xl font-bold leading-tight text-slate-900 md:text-4xl">
+                  Different rules in every county. We track them so you
+                  don&apos;t have to.
+                </h2>
+                <p className="mt-5 text-lg text-slate-600">
+                  Tell HeirFlow where you&apos;re filing and it instantly maps
+                  the case to that county&apos;s requirements, surfacing the right
+                  forms, local rules, and supporting documents for that specific
+                  Surrogate&apos;s Court.
+                </p>
+                <ul className="mt-7 space-y-4">
+                  {[
+                    "Auto-detects the required forms for the county you're filing in",
+                    "Flags county-specific local rules and supporting documents",
+                    "Keeps your firm current as county requirements change",
+                  ].map((item) => (
+                    <li key={item} className="flex gap-3 text-slate-700">
+                      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
+                        <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden />
+                      </span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-3xl bg-white p-8 text-center shadow-xl ring-1 ring-slate-100 md:p-10">
+                <p className="text-6xl font-bold text-blue-600 md:text-7xl">62</p>
+                <p className="mt-2 text-lg font-semibold text-slate-900">
+                  NY Surrogate&apos;s Courts
+                </p>
+                <p className="mt-1 text-slate-600">
+                  Each with its own forms, local rules, and quirks.
+                </p>
+                <div className="mt-8 grid grid-cols-2 gap-3 text-left sm:grid-cols-3">
+                  {[
+                    "Kings",
+                    "New York",
+                    "Queens",
+                    "Suffolk",
+                    "Nassau",
+                    "Erie",
+                    "Westchester",
+                    "Bronx",
+                    "Monroe",
+                  ].map((county) => (
+                    <span
+                      key={county}
+                      className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700"
+                    >
+                      <MapPin className="h-3.5 w-3.5 text-blue-500" aria-hidden />
+                      {county}
+                    </span>
+                  ))}
+                </div>
+                <p className="mt-6 text-sm font-medium text-slate-500">
+                  ...and 53 more, all covered.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* How it works */}
+        <section className="bg-white py-16 md:py-20">
+          <div className="container mx-auto max-w-6xl px-4">
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 className="text-3xl font-bold text-slate-900 md:text-4xl">
+                How HeirFlow works
+              </h2>
+              <p className="mt-4 text-lg text-slate-600">
+                From intake to court-ready filings, guided every step of the way.
+              </p>
+            </div>
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {[
+                {
+                  n: 1,
+                  title: "Intake & county detection",
+                  body: "Enter the case details. HeirFlow identifies the filing county and the requirements that apply.",
+                },
+                {
+                  n: 2,
+                  title: "Guided workflow",
+                  body: "Follow a clear, step-by-step timeline with the exact forms that county needs at each stage.",
+                },
+                {
+                  n: 3,
+                  title: "Court-ready filings",
+                  body: "Generate documents formatted and assembled the way that Surrogate's Court expects.",
+                },
+              ].map((step) => (
+                <div
+                  key={step.n}
+                  className="relative rounded-2xl border border-slate-100 bg-slate-50 p-7 shadow-sm"
+                >
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-600 text-lg font-bold text-white">
+                    {step.n}
+                  </span>
+                  <h3 className="mt-5 text-lg font-bold text-slate-900">
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 text-slate-600">{step.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Features */}
+        <section className="bg-[#faf8f5] py-16 md:py-20">
+          <div className="container mx-auto max-w-6xl px-4">
+            <div className="mx-auto mb-12 max-w-2xl text-center">
+              <h2 className="text-3xl font-bold text-slate-900 md:text-4xl">
+                Everything your firm needs in one place
+              </h2>
+              <p className="mt-4 text-lg text-slate-600">
+                Purpose-built for New York probate and estate administration.
+              </p>
+            </div>
+            <FeatureCarousel />
+          </div>
+        </section>
+
+        {/* Outcomes */}
+        <section className="bg-white py-16 md:py-20">
+          <div className="container mx-auto max-w-6xl px-4">
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 className="text-3xl font-bold text-slate-900 md:text-4xl">
+                What it means for your practice
+              </h2>
+            </div>
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {[
+                {
+                  Icon: Clock,
+                  title: "Save hours per matter",
+                  body: "Stop hunting for the right county forms and re-keying the same details across documents.",
+                },
+                {
+                  Icon: ShieldCheck,
+                  title: "Reduce filing errors",
+                  body: "Submit the correct, complete paperwork the first time and cut down on rejections and delays.",
+                },
+                {
+                  Icon: Users,
+                  title: "Onboard staff faster",
+                  body: "Built-in guidance lets paralegals and associates run matters with confidence.",
+                },
+              ].map(({ Icon, title, body }) => (
+                <div
+                  key={title}
+                  className="rounded-2xl border border-slate-100 bg-white p-7 text-center shadow-sm transition-shadow hover:shadow-md"
+                >
+                  <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 text-white">
+                    <Icon className="h-6 w-6" aria-hidden />
+                  </span>
+                  <h3 className="mt-5 text-lg font-bold text-slate-900">
+                    {title}
+                  </h3>
+                  <p className="mt-2 text-slate-600">{body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Demo video */}
+        <section id="video-section" className="bg-[#faf8f5] py-16 md:py-20">
+          <div className="container mx-auto max-w-4xl px-4">
+            <div className="mb-8 text-center">
+              <h2 className="text-3xl font-bold text-slate-900 md:text-4xl">
+                See it in action
+              </h2>
+              <p className="mt-3 text-lg text-slate-600">
+                Watch a quick walkthrough of the HeirFlow intake process.
+              </p>
+            </div>
+            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg">
+              <div className="aspect-video bg-slate-100">
+                <iframe
+                  src="https://www.loom.com/embed/cc4818e32c974bb483150f1af1d7abc1"
+                  frameBorder="0"
+                  allowFullScreen
+                  className="h-full w-full"
+                  title="HeirFlow Intake Process Demo"
+                />
+              </div>
+            </div>
+            <div className="mt-8 flex justify-center">
+              <Button
+                size="lg"
+                className="rounded-xl bg-blue-600 px-8 py-6 text-base font-semibold text-white shadow-md hover:bg-blue-700"
+                onClick={() => handleBookDemoClick("Video - Book a demo")}
+              >
+                <Calendar className="h-5 w-5" aria-hidden />
+                Book a demo
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Final CTA: inline Calendly */}
+        <section id="book-call" className="bg-white py-16 md:py-20">
+          <div className="container mx-auto max-w-6xl px-4">
+            <div className="overflow-hidden rounded-3xl bg-[#faf8f5] p-6 shadow-sm ring-1 ring-slate-200/80 md:p-10 lg:p-12">
+              <div className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-12">
+                <div className="max-w-xl space-y-4">
+                  <h2 className="text-3xl font-bold text-slate-900 md:text-4xl">
+                    Book a 15-minute demo
+                  </h2>
+                  <p className="text-lg text-slate-600">
+                    See how HeirFlow handles county-specific probate for your
+                    firm. We&apos;ll walk you through the platform and answer your
+                    questions.
+                  </p>
+                  <p className="pt-1 text-sm text-slate-500">
+                    Book in seconds • 15-minute call • No obligation
+                  </p>
+                  <div className="pt-2">
+                    <button
+                      type="button"
+                      onClick={() => onNavigate("probate-checklist")}
+                      className="text-sm font-medium text-blue-600 underline-offset-4 hover:underline"
+                    >
+                      Or grab the free Probate Survival Guide →
+                    </button>
+                  </div>
+                </div>
+                <div className="min-h-[560px] w-full overflow-x-auto rounded-xl border border-slate-200 bg-white">
+                  <div
+                    className="calendly-inline-widget min-h-[560px] w-full min-w-[320px]"
+                    data-url={CALENDLY_URL}
+                    style={{ minWidth: "320px", height: "640px", width: "100%" }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
 
       {/* Footer */}
-      <footer className="container mx-auto px-4 py-8 mt-16 border-t border-slate-200">
-        <div className="text-center space-y-3">
-          <p className="text-sm text-slate-500">
-            Secure • Confidential • Professional
-          </p>
-          <p className="text-xs text-slate-400 space-x-4">
-            <button
-              onClick={() => onNavigate("privacy")}
-              className="hover:text-blue-600 transition-colors underline"
-            >
-              Privacy Policy
-            </button>
-            <span>•</span>
-            <button
-              onClick={() => onNavigate("team")}
-              className="hover:text-blue-600 transition-colors underline"
-            >
-              Our Team
-            </button>
-          </p>
+      <footer className="bg-slate-900 text-white">
+        <div className="container mx-auto max-w-6xl px-4 py-14">
+          <div className="grid gap-10 md:grid-cols-3 md:gap-8">
+            <div className="flex gap-4">
+              <MapPin className="mt-1 h-8 w-8 shrink-0 text-blue-400" aria-hidden />
+              <div>
+                <p className="font-semibold">Built for NY</p>
+                <p className="mt-1 text-sm text-slate-300">
+                  Covers county-specific requirements across all 62 New York
+                  Surrogate&apos;s Courts.
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <Users className="mt-1 h-8 w-8 shrink-0 text-blue-400" aria-hidden />
+              <div>
+                <p className="font-semibold">Trusted by attorneys</p>
+                <p className="mt-1 text-sm text-slate-300">
+                  Built with and used by probate attorneys across New York.
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <ShieldCheck className="mt-1 h-8 w-8 shrink-0 text-blue-400" aria-hidden />
+              <div>
+                <p className="font-semibold">Secure &amp; confidential</p>
+                <p className="mt-1 text-sm text-slate-300">
+                  We handle the paperwork so you can focus on your clients and
+                  their families.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="mt-12 flex flex-col items-center gap-3 border-t border-slate-700 pt-8 text-center text-sm text-slate-400">
+            <p>© 2026 HeirFlow. All rights reserved.</p>
+            <p className="space-x-4">
+              <button
+                onClick={() => onNavigate("privacy")}
+                className="underline transition-colors hover:text-white"
+              >
+                Privacy Policy
+              </button>
+              <span>•</span>
+              <button
+                onClick={() => onNavigate("team")}
+                className="underline transition-colors hover:text-white"
+              >
+                Our Team
+              </button>
+            </p>
+          </div>
         </div>
       </footer>
     </div>
