@@ -109,10 +109,10 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                   <Button
                     size="lg"
                     className="rounded-xl bg-blue-600 px-8 py-6 text-base font-semibold text-white shadow-md hover:bg-blue-700"
-                    onClick={() => handleBookDemoClick("Hero - Book a demo")}
+                    onClick={() => handleBookDemoClick("Hero - Book a call")}
                   >
                     <Calendar className="h-5 w-5" aria-hidden />
-                    Book a demo
+                    Book a call
                   </Button>
                   <Button
                     size="lg"
@@ -120,7 +120,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                     className="rounded-xl border-slate-300 px-8 py-6 text-base font-semibold text-slate-800 hover:bg-slate-50"
                     onClick={scrollToVideo}
                   >
-                    Watch the demo
+                    Watch demo
                   </Button>
                 </div>
                 <p className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-500">
@@ -447,11 +447,12 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
             <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg">
               <div className="aspect-video bg-slate-100">
                 <iframe
-                  src="https://www.loom.com/embed/cc4818e32c974bb483150f1af1d7abc1"
+                  src="https://www.youtube.com/embed/wuGnxNl70UE"
                   frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                   className="h-full w-full"
-                  title="HeirFlow Intake Process Demo"
+                  title="HeirFlow Demo"
                 />
               </div>
             </div>
@@ -459,10 +460,10 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
               <Button
                 size="lg"
                 className="rounded-xl bg-blue-600 px-8 py-6 text-base font-semibold text-white shadow-md hover:bg-blue-700"
-                onClick={() => handleBookDemoClick("Video - Book a demo")}
+                onClick={() => handleBookDemoClick("Video - Book a call")}
               >
                 <Calendar className="h-5 w-5" aria-hidden />
-                Book a demo
+                Book a call
               </Button>
             </div>
           </div>
@@ -475,7 +476,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
               <div className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-12">
                 <div className="max-w-xl space-y-4">
                   <h2 className="text-3xl font-bold text-slate-900 md:text-4xl">
-                    Book a 15-minute demo
+                    Book a 15-minute call
                   </h2>
                   <p className="text-lg text-slate-600">
                     See how HeirFlow handles county-specific probate for your
