@@ -120,7 +120,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                     className="rounded-xl border-slate-300 px-8 py-6 text-base font-semibold text-slate-800 hover:bg-slate-50"
                     onClick={scrollToVideo}
                   >
-                    Watch 2-min demo
+                    Watch the demo
                   </Button>
                 </div>
                 <p className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-500">
