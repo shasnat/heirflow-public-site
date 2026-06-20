@@ -22,10 +22,10 @@ import { Button } from "./ui/button";
 const features = [
   {
     icon: Clock,
-    tagline: "Never lose track of progress",
+    tagline: "Never lose track of a matter",
     title: "Clear Probate Timeline",
     description:
-      "Streamline every step of estate administration with a visual timeline that guides you from intake to final distribution.",
+      "Streamline every step of estate administration with a visual timeline that guides your firm from intake to final distribution.",
     features: [
       "Step-by-step workflow",
       "Real-time progress tracking",
@@ -80,12 +80,12 @@ const features = [
   },
   {
     icon: FileCheck,
-    tagline: "Never miss a filing",
-    title: "Smart Document Recommendations",
+    tagline: "Right forms for every NY county",
+    title: "County-Aware Document Recommendations",
     description:
-      "Our intelligent system analyzes your case details and recommends the exact court documents you need—no more guesswork.",
+      "HeirFlow detects the filing county and recommends the exact court documents that county's Surrogate's Court requires—no more cross-referencing local rules.",
     features: [
-      "Auto-recommended filings",
+      "County-specific required forms",
       "Auto-filled templates",
       "Court-compliant formats",
       "Document tracking",
@@ -124,10 +124,10 @@ const features = [
   },
   {
     icon: BookOpen,
-    tagline: "Guidance exactly where you need it",
+    tagline: "Onboard staff faster",
     title: "Built-in Education",
     description:
-      "Access contextual educational content at every step. Never wonder what comes next or why a document is required.",
+      "Contextual guidance at every step means junior staff and paralegals can run matters confidently—without constant supervision.",
     features: [
       "Step-by-step explanations",
       "Legal requirement guides",
