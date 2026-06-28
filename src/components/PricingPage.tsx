@@ -1,8 +1,8 @@
 import { useEffect, useState, type ReactNode } from "react";
 import {
+  ArrowLeftRight,
   Calculator,
   Check,
-  ChevronDown,
   DollarSign,
   FileText,
   Landmark,
@@ -134,6 +134,10 @@ function effectiveMonthly(annual: number): number {
 export default function PricingPage() {
   const [cadence, setCadence] = useState<BillingCadence>("annual");
   const [showModules, setShowModules] = useState(false);
+  const [selectedTier, setSelectedTier] = useState<string | null>(null);
+
+  const toggleTier = (name: string) =>
+    setSelectedTier((current) => (current === name ? null : name));
 
   // Keep this page out of search indexes while it is mounted. Pricing is in
   // flux and this route is intentionally unlisted.
@@ -148,6 +152,11 @@ export default function PricingPage() {
   }, []);
 
   const isAnnual = cadence === "annual";
+  const selectedTierData =
+    TIERS.find((tier) => tier.name === selectedTier) ?? null;
+  const selectedModules = selectedTierData
+    ? MODULES.filter((module) => selectedTierData.includes.includes(module.key))
+    : [];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100">
@@ -202,20 +211,35 @@ export default function PricingPage() {
           </div>
         </div>
 
-        {/* Plan tiers */}
-        <div className="mt-10 grid items-start gap-6 md:grid-cols-3">
+        {/* Plan tiers — swapped with single modules via the link below */}
+        {!showModules && (
+          <>
+            <div className="mt-10 grid items-start gap-6 md:grid-cols-3">
           {TIERS.map((tier) => {
             const price = isAnnual
               ? effectiveMonthly(tier.annual)
               : tier.monthly;
             const pct = annualDiscountPct(tier.monthly, tier.annual);
+            const isSelected = selectedTier === tier.name;
             return (
               <Card
                 key={tier.name}
+                role="button"
+                tabIndex={0}
+                aria-pressed={isSelected}
+                onClick={() => toggleTier(tier.name)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    toggleTier(tier.name);
+                  }
+                }}
                 className={cn(
-                  "flex h-full flex-col shadow-sm transition-shadow hover:shadow-md",
+                  "flex h-full cursor-pointer flex-col shadow-sm transition-all hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500",
                   tier.highlight &&
                     "border-blue-300 shadow-md ring-2 ring-blue-200 md:-mt-2",
+                  isSelected &&
+                    "border-blue-500 ring-2 ring-blue-500 shadow-md",
                 )}
               >
                 <CardHeader>
@@ -286,28 +310,62 @@ export default function PricingPage() {
           })}
         </div>
 
-        {/* Single-module escape hatch */}
-        <div className="mt-10 text-center">
-          <button
-            type="button"
-            onClick={() => setShowModules((shown) => !shown)}
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-700"
-            aria-expanded={showModules}
-          >
-            Just need one part? Buy a single module
-            <ChevronDown
-              className={cn(
-                "h-4 w-4 transition-transform",
-                showModules && "rotate-180",
-              )}
-              aria-hidden
-            />
-          </button>
-        </div>
+        {/* Selected-plan detail */}
+        {selectedTierData ? (
+          <div className="mx-auto mt-8 max-w-2xl">
+            <Card className="border-blue-200 shadow-sm ring-1 ring-blue-100">
+              <CardContent className="pt-6">
+                <h3 className="text-lg font-semibold text-slate-900">
+                  What you get with {selectedTierData.name}
+                </h3>
+                <p className="mt-1 text-sm text-slate-600">
+                  {isAnnual
+                    ? `${formatPrice(effectiveMonthly(selectedTierData.annual))} / seat / month, billed annually at ${formatPrice(selectedTierData.annual)} / seat.`
+                    : `${formatPrice(selectedTierData.monthly)} / seat / month.`}
+                </p>
+                <div className="mt-5 space-y-5">
+                  {selectedModules.map((module) => (
+                    <div key={module.key}>
+                      <div className="flex items-center gap-2.5">
+                        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600 [&_svg]:h-4 [&_svg]:w-4">
+                          {module.icon}
+                        </span>
+                        <span className="font-medium text-slate-800">
+                          {module.name}
+                        </span>
+                      </div>
+                      <ul className="mt-2 space-y-2 pl-[42px]">
+                        {module.features.map((feature) => (
+                          <li
+                            key={feature}
+                            className="flex gap-2.5 text-sm text-slate-700"
+                          >
+                            <Check
+                              className="mt-0.5 h-4 w-4 shrink-0 text-blue-600"
+                              aria-hidden
+                            />
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        ) : (
+          <p className="mt-6 text-center text-sm text-slate-500">
+            Select a plan to see everything it includes.
+          </p>
+        )}
+          </>
+        )}
 
+        {/* Single modules — swapped in place of the plan tiers */}
         {showModules && (
-          <div className="mt-8">
-            <p className="mx-auto max-w-2xl text-center text-sm text-slate-500">
+          <div>
+            <p className="mx-auto mt-10 max-w-2xl text-center text-sm text-slate-500">
               Modules can be purchased on their own. Buying them separately costs
               more than the Complete plan, which bundles all three.
             </p>
@@ -374,6 +432,20 @@ export default function PricingPage() {
             </div>
           </div>
         )}
+
+        {/* Swap between bundle tiers and single modules */}
+        <div className="mt-10 text-center">
+          <button
+            type="button"
+            onClick={() => setShowModules((shown) => !shown)}
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-700"
+          >
+            <ArrowLeftRight className="h-4 w-4" aria-hidden />
+            {showModules
+              ? "Want everything together? Buy a bundle"
+              : "Just need one part? Buy a single module"}
+          </button>
+        </div>
 
         <p className="mt-10 text-center text-sm text-slate-500">
           All prices are per seat. Pricing is preliminary and subject to change.
