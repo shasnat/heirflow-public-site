@@ -219,7 +219,7 @@ export default function PricingPage() {
                 )}
               >
                 <CardHeader>
-                  {tier.badge ? (
+                  {tier.badge && isAnnual ? (
                     <div className="inline-flex w-fit items-center gap-1.5 rounded-full bg-blue-600 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
                       <Sparkles className="h-3.5 w-3.5" aria-hidden />
                       {tier.badge}
