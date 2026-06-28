@@ -8,6 +8,7 @@ import PrivacyPolicyPage from "./components/PrivacyPolicyPage";
 import ProbateChecklistPage from "./components/ProbateChecklistPage";
 import TeamPage from "./components/TeamPage";
 import LimitedTimeEventPage from "./components/LimitedTimeEventPage";
+import PricingPage from "./components/PricingPage";
 import Ad020LandingPage from "./components/Ad020LandingPage";
 import Ad020ScheduleDemoPage from "./components/Ad020ScheduleDemoPage";
 import Ad020V2LandingPage from "./components/Ad020V2LandingPage";
@@ -28,6 +29,7 @@ type PageType =
   | "probate-checklist"
   | "team"
   | "limited-time-event"
+  | "pricing-preview"
   | "ad-020-landing"
   | "ad-020-schedule-demo"
   | "ad-020-v2-landing"
@@ -52,6 +54,7 @@ function AppContent() {
     "probate-checklist": "/probate-checklist",
     team: "/team",
     "limited-time-event": "/limited-time-event",
+    "pricing-preview": "/pricing-preview",
     "ad-020-landing": "/lp/020-probate-help",
     "ad-020-schedule-demo": "/lp/020-probate-help/schedule-demo",
     "ad-020-v2-landing": "/lp/020-probate-help/v2",
@@ -94,6 +97,7 @@ function AppContent() {
         <Route path="/probate-checklist" element={<ProbateChecklistPage onNavigate={handleNavigate} />} />
         <Route path="/team" element={<TeamPage onNavigate={handleNavigate} />} />
         <Route path="/limited-time-event" element={<LimitedTimeEventPage onNavigate={handleNavigate} />} />
+        <Route path="/pricing-preview" element={<PricingPage />} />
         <Route path="/lp/020-probate-help" element={<Ad020LandingPage onNavigate={handleNavigate} />} />
         <Route path="/lp/020-probate-help/schedule-demo" element={<Ad020ScheduleDemoPage onNavigate={handleNavigate} />} />
         <Route path="/lp/020-probate-help/v2" element={<Ad020V2LandingPage onNavigate={handleNavigate} />} />
