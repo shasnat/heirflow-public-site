@@ -207,7 +207,7 @@ export default function PricingPage() {
                     : "bg-green-100 text-green-700",
                 )}
               >
-                Save up to 33%
+                Save up to {showModules ? "20%" : "33%"}
               </span>
             </button>
           </div>
