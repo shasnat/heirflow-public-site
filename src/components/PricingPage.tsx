@@ -45,21 +45,21 @@ const TIERS: PricingTier[] = [
     name: "Essentials",
     tagline: "File the estate's court documents with confidence.",
     monthly: 249,
-    annual: 2399,
+    annual: 2388,
     includes: ["doc-filing"],
   },
   {
     name: "Professional",
     tagline: "File documents and marshal the estate's assets.",
     monthly: 499,
-    annual: 4799,
+    annual: 4788,
     includes: ["doc-filing", "assets"],
   },
   {
     name: "Complete",
     tagline: "The full estate-administration workflow, end to end.",
     monthly: 949,
-    annual: 7599,
+    annual: 7668,
     includes: ["doc-filing", "assets", "accounting"],
     highlight: true,
     badge: "Best value",
@@ -83,7 +83,7 @@ const MODULES: PricingModule[] = [
     icon: <FileText className="h-6 w-6" aria-hidden />,
     tagline: "The right court forms, filled out and filed.",
     monthly: 249,
-    annual: 2399,
+    annual: 2388,
     features: [
       "Pinpoints every court form and cover letter your matter needs and drafts them for you",
       "Walks you step by step through notarizing and filing each document with the court",
@@ -96,7 +96,7 @@ const MODULES: PricingModule[] = [
     icon: AssetsIcon,
     tagline: "Take control of the estate's assets and debts.",
     monthly: 249,
-    annual: 2399,
+    annual: 2388,
     features: [
       "Builds a complete, organized inventory of the estate's assets as you go",
       "Generates the paperwork to marshal, appraise, and safeguard every asset",
@@ -110,7 +110,7 @@ const MODULES: PricingModule[] = [
     icon: <Calculator className="h-6 w-6" aria-hidden />,
     tagline: "Account for every dollar and close out the estate.",
     monthly: 449,
-    annual: 4319,
+    annual: 4308,
     features: [
       "Tracks every dollar that moves into and out of the estate",
       "Produces court-ready formal and informal accountings for judges and beneficiaries",
@@ -128,8 +128,8 @@ function annualDiscountPct(monthly: number, annual: number): number {
 }
 
 function effectiveMonthly(annual: number): number {
-  // Floor (not round) so the annual plan's per-month figure always reads just
-  // below a round number (e.g. $199, not $200), matching the charm pricing.
+  // Annual totals are set to exactly 12x the charm per-month rate, so this is
+  // an exact division; floor just guards against any future non-divisible value.
   return Math.floor(annual / 12);
 }
 
