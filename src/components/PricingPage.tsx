@@ -51,8 +51,8 @@ const TIERS: PricingTier[] = [
   {
     name: "Professional",
     tagline: "File documents and marshal the estate's assets.",
-    monthly: 499,
-    annual: 4788,
+    monthly: 599,
+    annual: 5748,
     includes: ["doc-filing", "assets"],
   },
   {
@@ -95,8 +95,8 @@ const MODULES: PricingModule[] = [
     name: "Assets & Liabilities",
     icon: AssetsIcon,
     tagline: "Take control of the estate's assets and debts.",
-    monthly: 249,
-    annual: 2388,
+    monthly: 349,
+    annual: 3348,
     features: [
       "Builds a complete, organized inventory of the estate's assets as you go",
       "Generates the paperwork to marshal, appraise, and safeguard every asset",
