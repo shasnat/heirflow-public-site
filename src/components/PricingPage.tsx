@@ -128,7 +128,9 @@ function annualDiscountPct(monthly: number, annual: number): number {
 }
 
 function effectiveMonthly(annual: number): number {
-  return Math.round(annual / 12);
+  // Floor (not round) so the annual plan's per-month figure always reads just
+  // below a round number (e.g. $199, not $200), matching the charm pricing.
+  return Math.floor(annual / 12);
 }
 
 export default function PricingPage() {
