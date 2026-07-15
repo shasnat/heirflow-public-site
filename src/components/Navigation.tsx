@@ -38,7 +38,7 @@ export default function Navigation({ onNavigate }: NavigationProps) {
   // free trial automatically on their first checkout, so this is the primary CTA.
   const handleStartTrial = () => {
     trackStandardEvent("Lead", { pageName: "nav" });
-    trackEvent("StartTrialClick", { pageName: "nav", ctaText: "Nav - Sign Up For a Free Trial" });
+    trackEvent("StartTrialClick", { pageName: "nav", ctaText: "Nav - Try for Free" });
     window.location.href = appSignupUrl();
   };
 
@@ -80,7 +80,7 @@ export default function Navigation({ onNavigate }: NavigationProps) {
               className="shrink-0 bg-blue-600 px-4 font-semibold text-white shadow-sm hover:bg-blue-700 sm:px-6"
               onClick={handleStartTrial}
             >
-              Sign Up For a Free Trial
+              Try for Free
             </Button>
           </div>
         </div>
