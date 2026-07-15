@@ -2,6 +2,7 @@ import { Calendar, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { trackEvent, trackStandardEvent } from "../lib/metaPixel";
+import { appSignupUrl } from "../lib/appUrl";
 
 type PageType =
   | "landing"
@@ -10,7 +11,8 @@ type PageType =
   | "privacy"
   | "probate-checklist"
   | "team"
-  | "limited-time-event";
+  | "limited-time-event"
+  | "pricing";
 
 interface NavigationProps {
   onNavigate: (page: PageType) => void;
@@ -31,6 +33,14 @@ export default function Navigation({ onNavigate }: NavigationProps) {
     onNavigate("schedule-demo");
   };
 
+  // Self-service on-ramp: account creation + checkout live in the app, so this
+  // links out to app signup (not a heirflow.com flow). Copy stays "Get started"
+  // (paid) until the free-trial feature ships its trial entry.
+  const handleGetStarted = () => {
+    trackEvent("GetStartedClick", { pageName: "nav", ctaText: "Nav - Get started" });
+    window.location.href = appSignupUrl();
+  };
+
   return (
     <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur">
       <div className="container mx-auto px-4">
@@ -44,19 +54,32 @@ export default function Navigation({ onNavigate }: NavigationProps) {
           </Link>
 
           <div className="flex items-center gap-3 sm:gap-5">
-            <div className="hidden min-w-0 items-center gap-2 text-right text-sm leading-snug text-slate-600 md:flex md:text-[15px]">
+            <div className="hidden min-w-0 items-center gap-2 text-right text-sm leading-snug text-slate-600 lg:flex lg:text-[15px]">
               <Shield className="h-4 w-4 shrink-0 text-blue-600" aria-hidden />
               <span className="text-balance">
                 Built for NY Attorneys &amp; Legal Professionals
               </span>
             </div>
+            <Link
+              to="/pricing"
+              onClick={() => onNavigate("pricing")}
+              className="hidden shrink-0 text-sm font-medium text-slate-600 transition-colors hover:text-blue-700 sm:inline"
+            >
+              Pricing
+            </Link>
             <Button
-              className="shrink-0 bg-blue-600 px-4 font-semibold text-white shadow-sm hover:bg-blue-700 sm:px-6"
+              variant="outline"
+              className="shrink-0 px-3 font-semibold sm:px-4"
               onClick={handleBookDemo}
             >
               <Calendar className="h-4 w-4" aria-hidden />
               <span className="hidden sm:inline">Book a call</span>
-              <span className="sm:hidden">Book a call</span>
+            </Button>
+            <Button
+              className="shrink-0 bg-blue-600 px-4 font-semibold text-white shadow-sm hover:bg-blue-700 sm:px-6"
+              onClick={handleGetStarted}
+            >
+              Get started
             </Button>
           </div>
         </div>

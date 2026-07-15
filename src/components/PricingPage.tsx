@@ -10,6 +10,8 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
+import { appSignupUrl } from "../lib/appUrl";
 import { cn } from "./ui/utils";
 
 type BillingCadence = "monthly" | "annual";
@@ -353,6 +355,15 @@ export default function PricingPage() {
                     </div>
                   ))}
                 </div>
+                {/* Purchase happens in the app (account creation + checkout are
+                    authenticated), so this links out to app signup rather than a
+                    heirflow.com payment flow. The plan is chosen again in-app. */}
+                <Button
+                  asChild
+                  className="mt-6 w-full bg-blue-600 font-semibold text-white hover:bg-blue-700"
+                >
+                  <a href={appSignupUrl()}>Get started with {selectedTierData.name}</a>
+                </Button>
               </CardContent>
             </Card>
           </div>
