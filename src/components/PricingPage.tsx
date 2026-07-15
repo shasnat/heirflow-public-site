@@ -40,6 +40,9 @@ interface PricingTier {
   includes: ModuleKey[];
   highlight?: boolean;
   badge?: string;
+  /** Displayed but not yet purchasable: muted, badged, non-interactive. Only
+   *  Essentials is live today — drop this flag on a tier as it launches. */
+  comingSoon?: boolean;
 }
 
 const TIERS: PricingTier[] = [
@@ -56,6 +59,7 @@ const TIERS: PricingTier[] = [
     monthly: 599,
     annual: 5748,
     includes: ["doc-filing", "assets"],
+    comingSoon: true,
   },
   {
     name: "Complete",
@@ -65,6 +69,7 @@ const TIERS: PricingTier[] = [
     includes: ["doc-filing", "assets", "accounting"],
     highlight: true,
     badge: "Best value",
+    comingSoon: true,
   },
 ];
 
@@ -140,8 +145,11 @@ export default function PricingPage() {
   const [showModules, setShowModules] = useState(false);
   const [selectedTier, setSelectedTier] = useState<string | null>(null);
 
-  const toggleTier = (name: string) =>
+  const toggleTier = (name: string) => {
+    // Coming-soon tiers are informational only and cannot be selected.
+    if (TIERS.find((tier) => tier.name === name)?.comingSoon) return;
     setSelectedTier((current) => (current === name ? null : name));
+  };
 
   // Keep this page out of search indexes while it is mounted. Pricing is in
   // flux and this route is intentionally unlisted.
@@ -156,6 +164,16 @@ export default function PricingPage() {
   }, []);
 
   const isAnnual = cadence === "annual";
+  // Advertise only a discount a visitor can actually get today: the best annual
+  // saving across purchasable tiers (bundle view) or the modules (module view).
+  const purchasableTiers = TIERS.filter((tier) => !tier.comingSoon);
+  const maxTierDiscount = Math.max(
+    ...purchasableTiers.map((tier) => annualDiscountPct(tier.monthly, tier.annual)),
+  );
+  const maxModuleDiscount = Math.max(
+    ...MODULES.map((module) => annualDiscountPct(module.monthly, module.annual)),
+  );
+  const maxDiscount = showModules ? maxModuleDiscount : maxTierDiscount;
   const selectedTierData =
     TIERS.find((tier) => tier.name === selectedTier) ?? null;
   const selectedModules = selectedTierData
@@ -209,7 +227,7 @@ export default function PricingPage() {
                     : "bg-green-100 text-green-700",
                 )}
               >
-                Save up to {showModules ? "20%" : "33%"}
+                Save up to {maxDiscount}%
               </span>
             </button>
           </div>
@@ -225,29 +243,45 @@ export default function PricingPage() {
               : tier.monthly;
             const pct = annualDiscountPct(tier.monthly, tier.annual);
             const isSelected = selectedTier === tier.name;
+            const comingSoon = tier.comingSoon;
+            const interactive = !comingSoon;
             return (
               <Card
                 key={tier.name}
-                role="button"
-                tabIndex={0}
-                aria-pressed={isSelected}
-                onClick={() => toggleTier(tier.name)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    toggleTier(tier.name);
-                  }
-                }}
+                role={interactive ? "button" : undefined}
+                tabIndex={interactive ? 0 : undefined}
+                aria-pressed={interactive ? isSelected : undefined}
+                aria-disabled={comingSoon || undefined}
+                onClick={interactive ? () => toggleTier(tier.name) : undefined}
+                onKeyDown={
+                  interactive
+                    ? (event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          toggleTier(tier.name);
+                        }
+                      }
+                    : undefined
+                }
                 className={cn(
-                  "flex h-full cursor-pointer flex-col shadow-sm transition-all hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500",
-                  tier.highlight &&
+                  "flex h-full flex-col shadow-sm transition-all",
+                  interactive &&
+                    "cursor-pointer hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500",
+                  // Coming-soon tiers read as unavailable: dashed, muted, dimmed.
+                  comingSoon && "border-dashed border-slate-300 bg-slate-50/70 opacity-80",
+                  !comingSoon &&
+                    tier.highlight &&
                     "border-blue-300 shadow-md ring-2 ring-blue-200 md:-mt-2",
                   isSelected &&
                     "border-blue-500 ring-2 ring-blue-500 shadow-md",
                 )}
               >
                 <CardHeader>
-                  {tier.badge && isAnnual ? (
+                  {comingSoon ? (
+                    <div className="inline-flex w-fit items-center gap-1.5 rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-700">
+                      Coming soon
+                    </div>
+                  ) : tier.badge && isAnnual ? (
                     <div className="inline-flex w-fit items-center gap-1.5 rounded-full bg-blue-600 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
                       <Sparkles className="h-3.5 w-3.5" aria-hidden />
                       {tier.badge}
@@ -260,23 +294,32 @@ export default function PricingPage() {
                 </CardHeader>
                 <CardContent className="flex flex-1 flex-col">
                   <div className="border-y border-slate-100 py-4">
-                    <div className="flex items-baseline gap-1.5">
-                      <span className="text-4xl font-bold text-slate-900">
-                        {formatPrice(price)}
-                      </span>
-                      <span className="text-sm font-medium text-slate-500">
-                        / seat / month
-                      </span>
-                    </div>
-                    {isAnnual ? (
-                      <p className="mt-2 text-sm text-slate-500">
-                        Billed annually at {formatPrice(tier.annual)} / seat ·{" "}
-                        <span className="font-medium text-green-700">
-                          save {pct}%
-                        </span>
+                    {comingSoon ? (
+                      // Pricing is withheld until the tier launches.
+                      <p className="text-sm font-medium text-slate-500">
+                        Pricing announced at launch
                       </p>
                     ) : (
-                      <p className="mt-2 text-sm text-slate-500">Billed monthly</p>
+                      <>
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="text-4xl font-bold text-slate-900">
+                            {formatPrice(price)}
+                          </span>
+                          <span className="text-sm font-medium text-slate-500">
+                            / seat / month
+                          </span>
+                        </div>
+                        {isAnnual ? (
+                          <p className="mt-2 text-sm text-slate-500">
+                            Billed annually at {formatPrice(tier.annual)} / seat ·{" "}
+                            <span className="font-medium text-green-700">
+                              save {pct}%
+                            </span>
+                          </p>
+                        ) : (
+                          <p className="mt-2 text-sm text-slate-500">Billed monthly</p>
+                        )}
+                      </>
                     )}
                   </div>
                   <ul className="mt-5 space-y-3">
@@ -362,7 +405,7 @@ export default function PricingPage() {
                   asChild
                   className="mt-6 w-full bg-blue-600 font-semibold text-white hover:bg-blue-700"
                 >
-                  <a href={appSignupUrl()}>Get started with {selectedTierData.name}</a>
+                  <a href={appSignupUrl()}>Try for Free</a>
                 </Button>
               </CardContent>
             </Card>

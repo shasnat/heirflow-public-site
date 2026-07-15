@@ -34,10 +34,11 @@ export default function Navigation({ onNavigate }: NavigationProps) {
   };
 
   // Self-service on-ramp: account creation + checkout live in the app, so this
-  // links out to app signup (not a heirflow.com flow). Copy stays "Get started"
-  // (paid) until the free-trial feature ships its trial entry.
-  const handleGetStarted = () => {
-    trackEvent("GetStartedClick", { pageName: "nav", ctaText: "Nav - Get started" });
+  // links out to app signup (not a heirflow.com flow). New attorneys get a 7-day
+  // free trial automatically on their first checkout, so this is the primary CTA.
+  const handleStartTrial = () => {
+    trackStandardEvent("Lead", { pageName: "nav" });
+    trackEvent("StartTrialClick", { pageName: "nav", ctaText: "Nav - Try for Free" });
     window.location.href = appSignupUrl();
   };
 
@@ -77,9 +78,9 @@ export default function Navigation({ onNavigate }: NavigationProps) {
             </Button>
             <Button
               className="shrink-0 bg-blue-600 px-4 font-semibold text-white shadow-sm hover:bg-blue-700 sm:px-6"
-              onClick={handleGetStarted}
+              onClick={handleStartTrial}
             >
-              Get started
+              Try for Free
             </Button>
           </div>
         </div>
