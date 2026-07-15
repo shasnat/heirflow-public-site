@@ -10,8 +10,10 @@
  * point at a staging app; it defaults to the production app origin.
  */
 export function appBaseUrl(): string {
+  // `||` (not `??`) so an empty-string env value falls back too, rather than
+  // producing a broken relative "/signup/..." link.
   const configured = import.meta.env.VITE_APP_URL;
-  return (configured ?? "https://app.heirflow.com").replace(/\/+$/, "");
+  return (configured || "https://app.heirflow.com").replace(/\/+$/, "");
 }
 
 /** Deep link to the app's account-creation page. Self-service purchasers are
