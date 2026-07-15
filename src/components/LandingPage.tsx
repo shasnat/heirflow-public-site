@@ -116,9 +116,9 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                   <Button
                     size="lg"
                     className="rounded-xl bg-blue-600 px-8 py-6 text-base font-semibold text-white shadow-md hover:bg-blue-700"
-                    onClick={() => handleStartTrialClick("Hero - Try a Free Trial")}
+                    onClick={() => handleStartTrialClick("Hero - Sign Up For a Free Trial")}
                   >
-                    Try a Free Trial
+                    Sign Up For a Free Trial
                   </Button>
                   <Button
                     size="lg"
@@ -466,9 +466,9 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
               <Button
                 size="lg"
                 className="rounded-xl bg-blue-600 px-8 py-6 text-base font-semibold text-white shadow-md hover:bg-blue-700"
-                onClick={() => handleStartTrialClick("Video - Try a Free Trial")}
+                onClick={() => handleStartTrialClick("Video - Sign Up For a Free Trial")}
               >
-                Try a Free Trial
+                Sign Up For a Free Trial
               </Button>
               <Button
                 size="lg"
