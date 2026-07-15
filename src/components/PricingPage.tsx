@@ -362,7 +362,7 @@ export default function PricingPage() {
                   asChild
                   className="mt-6 w-full bg-blue-600 font-semibold text-white hover:bg-blue-700"
                 >
-                  <a href={appSignupUrl()}>Get started with {selectedTierData.name}</a>
+                  <a href={appSignupUrl()}>Try a Free Trial</a>
                 </Button>
               </CardContent>
             </Card>

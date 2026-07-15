@@ -12,6 +12,7 @@ import {
 import { Button } from "./ui/button";
 import FeatureCarousel from "./FeatureCarousel";
 import { trackEvent, trackStandardEvent } from "../lib/metaPixel";
+import { appSignupUrl } from "../lib/appUrl";
 
 interface LandingPageProps {
   onNavigate: (
@@ -80,6 +81,12 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
     document.getElementById("book-call")?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const handleStartTrialClick = (ctaText: string) => {
+    trackStandardEvent("Lead", { pageName: "landing" });
+    trackEvent("StartTrialClick", { pageName: "landing", ctaText });
+    window.location.href = appSignupUrl();
+  };
+
   return (
     <div className="min-h-screen bg-white text-slate-900">
       <main>
@@ -109,10 +116,9 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                   <Button
                     size="lg"
                     className="rounded-xl bg-blue-600 px-8 py-6 text-base font-semibold text-white shadow-md hover:bg-blue-700"
-                    onClick={() => handleBookDemoClick("Hero - Book a call")}
+                    onClick={() => handleStartTrialClick("Hero - Try a Free Trial")}
                   >
-                    <Calendar className="h-5 w-5" aria-hidden />
-                    Book a call
+                    Try a Free Trial
                   </Button>
                   <Button
                     size="lg"
@@ -126,11 +132,11 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 <p className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-500">
                   <span className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-blue-500" strokeWidth={3} aria-hidden />
-                    15-minute call
+                    7-day free trial
                   </span>
                   <span className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-blue-500" strokeWidth={3} aria-hidden />
-                    No obligation
+                    Cancel anytime
                   </span>
                   <span className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-blue-500" strokeWidth={3} aria-hidden />
@@ -456,10 +462,18 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 />
               </div>
             </div>
-            <div className="mt-8 flex justify-center">
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:items-center">
               <Button
                 size="lg"
                 className="rounded-xl bg-blue-600 px-8 py-6 text-base font-semibold text-white shadow-md hover:bg-blue-700"
+                onClick={() => handleStartTrialClick("Video - Try a Free Trial")}
+              >
+                Try a Free Trial
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="rounded-xl border-slate-300 px-8 py-6 text-base font-semibold text-slate-800 hover:bg-slate-50"
                 onClick={() => handleBookDemoClick("Video - Book a call")}
               >
                 <Calendar className="h-5 w-5" aria-hidden />
