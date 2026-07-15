@@ -294,23 +294,32 @@ export default function PricingPage() {
                 </CardHeader>
                 <CardContent className="flex flex-1 flex-col">
                   <div className="border-y border-slate-100 py-4">
-                    <div className="flex items-baseline gap-1.5">
-                      <span className="text-4xl font-bold text-slate-900">
-                        {formatPrice(price)}
-                      </span>
-                      <span className="text-sm font-medium text-slate-500">
-                        / seat / month
-                      </span>
-                    </div>
-                    {isAnnual ? (
-                      <p className="mt-2 text-sm text-slate-500">
-                        Billed annually at {formatPrice(tier.annual)} / seat ·{" "}
-                        <span className="font-medium text-green-700">
-                          save {pct}%
-                        </span>
+                    {comingSoon ? (
+                      // Pricing is withheld until the tier launches.
+                      <p className="text-sm font-medium text-slate-500">
+                        Pricing announced at launch
                       </p>
                     ) : (
-                      <p className="mt-2 text-sm text-slate-500">Billed monthly</p>
+                      <>
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="text-4xl font-bold text-slate-900">
+                            {formatPrice(price)}
+                          </span>
+                          <span className="text-sm font-medium text-slate-500">
+                            / seat / month
+                          </span>
+                        </div>
+                        {isAnnual ? (
+                          <p className="mt-2 text-sm text-slate-500">
+                            Billed annually at {formatPrice(tier.annual)} / seat ·{" "}
+                            <span className="font-medium text-green-700">
+                              save {pct}%
+                            </span>
+                          </p>
+                        ) : (
+                          <p className="mt-2 text-sm text-slate-500">Billed monthly</p>
+                        )}
+                      </>
                     )}
                   </div>
                   <ul className="mt-5 space-y-3">
