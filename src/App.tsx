@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import Navigation from "./components/Navigation";
 import LandingPage from "./components/LandingPage";
@@ -29,7 +29,7 @@ type PageType =
   | "probate-checklist"
   | "team"
   | "limited-time-event"
-  | "pricing-preview"
+  | "pricing"
   | "ad-020-landing"
   | "ad-020-schedule-demo"
   | "ad-020-v2-landing"
@@ -54,7 +54,7 @@ function AppContent() {
     "probate-checklist": "/probate-checklist",
     team: "/team",
     "limited-time-event": "/limited-time-event",
-    "pricing-preview": "/pricing-preview",
+    pricing: "/pricing",
     "ad-020-landing": "/lp/020-probate-help",
     "ad-020-schedule-demo": "/lp/020-probate-help/schedule-demo",
     "ad-020-v2-landing": "/lp/020-probate-help/v2",
@@ -97,7 +97,9 @@ function AppContent() {
         <Route path="/probate-checklist" element={<ProbateChecklistPage onNavigate={handleNavigate} />} />
         <Route path="/team" element={<TeamPage onNavigate={handleNavigate} />} />
         <Route path="/limited-time-event" element={<LimitedTimeEventPage onNavigate={handleNavigate} />} />
-        <Route path="/pricing-preview" element={<PricingPage />} />
+        <Route path="/pricing" element={<PricingPage />} />
+        {/* Keep the old preview path working for any existing inbound links. */}
+        <Route path="/pricing-preview" element={<Navigate to="/pricing" replace />} />
         <Route path="/lp/020-probate-help" element={<Ad020LandingPage onNavigate={handleNavigate} />} />
         <Route path="/lp/020-probate-help/schedule-demo" element={<Ad020ScheduleDemoPage onNavigate={handleNavigate} />} />
         <Route path="/lp/020-probate-help/v2" element={<Ad020V2LandingPage onNavigate={handleNavigate} />} />
