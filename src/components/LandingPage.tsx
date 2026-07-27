@@ -90,7 +90,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
             aria-hidden
             className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-blue-200/40 blur-3xl"
           />
-          <div className="container relative mx-auto max-w-6xl px-4 py-16 md:py-20 lg:py-24">
+          <div className="container relative mx-auto max-w-6xl px-4 py-10 md:py-12 lg:py-14">
             <div className="grid items-center gap-12 lg:grid-cols-2">
               <div>
                 <p className="mb-5 inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-blue-800">
@@ -210,6 +210,46 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
           </div>
         </section>
 
+        {/* Testimonial */}
+        <section className="bg-blue-50 pt-8 pb-14 md:pt-10 md:pb-16">
+          <div className="container mx-auto max-w-3xl px-4">
+            <figure className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200/80 md:p-12">
+              <Quote className="h-10 w-10 text-blue-500" aria-hidden />
+              <blockquote className="mt-6 text-xl font-medium leading-relaxed text-slate-800 md:text-2xl">
+                HeirFlow has made preparing probate filings much faster and
+                easier. The interface is intuitive, the documents are well
+                organized, and the team is incredibly responsive to support and
+                feature requests.
+              </blockquote>
+              <figcaption className="mt-8 flex items-center gap-4 border-t border-slate-100 pt-6">
+                <img
+                  src="/kathleen-peer.jpg"
+                  alt="Kathleen C. Peer"
+                  className="h-16 w-16 shrink-0 rounded-full object-cover ring-1 ring-slate-200"
+                />
+                <div className="flex flex-col gap-1">
+                  <span className="text-base font-bold text-slate-900">
+                    Kathleen C. Peer
+                  </span>
+                  <span className="text-sm text-slate-600">
+                    Peer Law Firm &bull; Stuyvesant, NY
+                  </span>
+                  <span className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+                    <a
+                      href="https://www.linkedin.com/in/kathleen-peer"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-medium text-blue-600 hover:underline"
+                    >
+                      LinkedIn
+                    </a>
+                  </span>
+                </div>
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+
         {/* Problem section */}
         <section className="bg-white py-16 md:py-20">
           <div className="container mx-auto max-w-6xl px-4">
@@ -313,46 +353,6 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* Testimonial */}
-        <section className="bg-blue-50 py-16 md:py-20">
-          <div className="container mx-auto max-w-3xl px-4">
-            <figure className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200/80 md:p-12">
-              <Quote className="h-10 w-10 text-blue-500" aria-hidden />
-              <blockquote className="mt-6 text-xl font-medium leading-relaxed text-slate-800 md:text-2xl">
-                HeirFlow has made preparing probate filings much faster and
-                easier. The interface is intuitive, the documents are well
-                organized, and the team is incredibly responsive to support and
-                feature requests.
-              </blockquote>
-              <figcaption className="mt-8 flex items-center gap-4 border-t border-slate-100 pt-6">
-                <img
-                  src="/kathleen-peer.jpg"
-                  alt="Kathleen C. Peer"
-                  className="h-16 w-16 shrink-0 rounded-full object-cover ring-1 ring-slate-200"
-                />
-                <div className="flex flex-col gap-1">
-                  <span className="text-base font-bold text-slate-900">
-                    Kathleen C. Peer
-                  </span>
-                  <span className="text-sm text-slate-600">
-                    Peer Law Firm &bull; Stuyvesant, NY
-                  </span>
-                  <span className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
-                    <a
-                      href="https://www.linkedin.com/in/kathleen-peer"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-medium text-blue-600 hover:underline"
-                    >
-                      LinkedIn
-                    </a>
-                  </span>
-                </div>
-              </figcaption>
-            </figure>
           </div>
         </section>
 
