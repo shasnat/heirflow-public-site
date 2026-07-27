@@ -234,16 +234,6 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                   <span className="text-sm text-slate-600">
                     Peer Law Firm &bull; Stuyvesant, NY
                   </span>
-                  <span className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
-                    <a
-                      href="https://www.linkedin.com/in/kathleen-peer"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-medium text-blue-600 hover:underline"
-                    >
-                      LinkedIn
-                    </a>
-                  </span>
                 </div>
               </figcaption>
             </figure>
