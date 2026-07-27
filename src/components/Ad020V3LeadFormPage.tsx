@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { trackStandardEvent } from "../lib/metaPixel";
+import { observeBrevoLeadSuccess } from "../lib/metaPixel";
 
 interface Ad020V3LeadFormPageProps {
   onNavigate: (
@@ -158,7 +158,8 @@ export default function Ad020V3LeadFormPage({
   `;
 
   useEffect(() => {
-    trackStandardEvent("Lead", {
+    // Fires `Lead` only on real form-submit success (plus `ViewLeadForm` now).
+    const stopLeadObserver = observeBrevoLeadSuccess({
       pageName: "ad-020-v3-lead-form",
       adId: "ad-020-v3",
     });
@@ -194,6 +195,7 @@ export default function Ad020V3LeadFormPage({
     (window as any).AUTOHIDE = Boolean(0);
 
     return () => {
+      stopLeadObserver();
       if (document.body.contains(script)) {
         document.body.removeChild(script);
       }

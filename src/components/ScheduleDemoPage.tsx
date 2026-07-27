@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { trackStandardEvent } from "../lib/metaPixel";
+import { observeCalendlyBooking } from "../lib/metaPixel";
 
 interface ScheduleDemoPageProps {
   onNavigate: (
@@ -17,7 +17,10 @@ export default function ScheduleDemoPage({
   onNavigate,
 }: ScheduleDemoPageProps) {
   useEffect(() => {
-    trackStandardEvent("Schedule", { pageName: "schedule-demo" });
+    // Fires `Schedule` only on a real Calendly booking (plus `ViewSchedulePage`).
+    const stopBookingObserver = observeCalendlyBooking({
+      pageName: "schedule-demo",
+    });
 
     // Load Calendly widget script
     const calendlyScript = document.createElement("script");
@@ -26,6 +29,7 @@ export default function ScheduleDemoPage({
     document.body.appendChild(calendlyScript);
 
     return () => {
+      stopBookingObserver();
       // Cleanup: remove script when component unmounts
       if (document.body.contains(calendlyScript)) {
         document.body.removeChild(calendlyScript);

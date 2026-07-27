@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { trackStandardEvent } from "../lib/metaPixel";
+import { observeCalendlyBooking } from "../lib/metaPixel";
 
 interface Ad020V2ScheduleDemoPageProps {
   onNavigate: (
@@ -24,7 +24,8 @@ export default function Ad020V2ScheduleDemoPage({
   onNavigate,
 }: Ad020V2ScheduleDemoPageProps) {
   useEffect(() => {
-    trackStandardEvent("Schedule", {
+    // Fires `Schedule` only on a real Calendly booking (plus `ViewSchedulePage`).
+    const stopBookingObserver = observeCalendlyBooking({
       pageName: "ad-020-v2-schedule-demo",
       adId: "ad-020-v2",
     });
@@ -35,6 +36,7 @@ export default function Ad020V2ScheduleDemoPage({
     document.body.appendChild(calendlyScript);
 
     return () => {
+      stopBookingObserver();
       if (document.body.contains(calendlyScript)) {
         document.body.removeChild(calendlyScript);
       }
