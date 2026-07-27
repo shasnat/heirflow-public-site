@@ -6,6 +6,7 @@ import {
   Clock,
   GraduationCap,
   MapPin,
+  Quote,
   ShieldCheck,
   Users,
 } from "lucide-react";
@@ -257,124 +258,6 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
           </div>
         </section>
 
-        {/* County differentiator: centerpiece */}
-        <section className="bg-[#faf8f5] py-16 md:py-24">
-          <div className="container mx-auto max-w-6xl px-4">
-            <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-              <div>
-                <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-blue-800">
-                  <MapPin className="h-3.5 w-3.5" aria-hidden />
-                  The HeirFlow difference
-                </p>
-                <h2 className="text-3xl font-bold leading-tight text-slate-900 md:text-4xl">
-                  Different rules in every county. We track them so you
-                  don&apos;t have to.
-                </h2>
-                <p className="mt-5 text-lg text-slate-600">
-                  Tell HeirFlow where you&apos;re filing and it instantly maps
-                  the case to that county&apos;s requirements, surfacing the right
-                  forms, local rules, and supporting documents for that specific
-                  Surrogate&apos;s Court.
-                </p>
-                <ul className="mt-7 space-y-4">
-                  {[
-                    "Auto-detects the required forms for the county you're filing in",
-                    "Flags county-specific local rules and supporting documents",
-                    "Keeps your firm current as county requirements change",
-                  ].map((item) => (
-                    <li key={item} className="flex gap-3 text-slate-700">
-                      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
-                        <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden />
-                      </span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="rounded-3xl bg-white p-8 text-center shadow-xl ring-1 ring-slate-100 md:p-10">
-                <p className="text-6xl font-bold text-blue-600 md:text-7xl">62</p>
-                <p className="mt-2 text-lg font-semibold text-slate-900">
-                  NY Surrogate&apos;s Courts
-                </p>
-                <p className="mt-1 text-slate-600">
-                  Each with its own forms, local rules, and quirks.
-                </p>
-                <div className="mt-8 grid grid-cols-2 gap-3 text-left sm:grid-cols-3">
-                  {[
-                    "Kings",
-                    "New York",
-                    "Queens",
-                    "Suffolk",
-                    "Nassau",
-                    "Erie",
-                    "Westchester",
-                    "Bronx",
-                    "Monroe",
-                  ].map((county) => (
-                    <span
-                      key={county}
-                      className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700"
-                    >
-                      <MapPin className="h-3.5 w-3.5 text-blue-500" aria-hidden />
-                      {county}
-                    </span>
-                  ))}
-                </div>
-                <p className="mt-6 text-sm font-medium text-slate-500">
-                  ...and 53 more, all covered.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* How it works */}
-        <section className="bg-white py-16 md:py-20">
-          <div className="container mx-auto max-w-6xl px-4">
-            <div className="mx-auto max-w-2xl text-center">
-              <h2 className="text-3xl font-bold text-slate-900 md:text-4xl">
-                How HeirFlow works
-              </h2>
-              <p className="mt-4 text-lg text-slate-600">
-                From intake to court-ready filings, guided every step of the way.
-              </p>
-            </div>
-            <div className="mt-12 grid gap-6 md:grid-cols-3">
-              {[
-                {
-                  n: 1,
-                  title: "Intake & county detection",
-                  body: "Enter the case details. HeirFlow identifies the filing county and the requirements that apply.",
-                },
-                {
-                  n: 2,
-                  title: "Guided workflow",
-                  body: "Follow a clear, step-by-step timeline with the exact forms that county needs at each stage.",
-                },
-                {
-                  n: 3,
-                  title: "Court-ready filings",
-                  body: "Generate documents formatted and assembled the way that Surrogate's Court expects.",
-                },
-              ].map((step) => (
-                <div
-                  key={step.n}
-                  className="relative rounded-2xl border border-slate-100 bg-slate-50 p-7 shadow-sm"
-                >
-                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-600 text-lg font-bold text-white">
-                    {step.n}
-                  </span>
-                  <h3 className="mt-5 text-lg font-bold text-slate-900">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 text-slate-600">{step.body}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Features */}
         <section className="bg-[#faf8f5] py-16 md:py-20">
           <div className="container mx-auto max-w-6xl px-4">
@@ -430,6 +313,46 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Testimonial */}
+        <section className="bg-blue-50 py-16 md:py-20">
+          <div className="container mx-auto max-w-3xl px-4">
+            <figure className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200/80 md:p-12">
+              <Quote className="h-10 w-10 text-blue-500" aria-hidden />
+              <blockquote className="mt-6 text-xl font-medium leading-relaxed text-slate-800 md:text-2xl">
+                HeirFlow has made preparing probate filings much faster and
+                easier. The interface is intuitive, the documents are well
+                organized, and the team is incredibly responsive to support and
+                feature requests.
+              </blockquote>
+              <figcaption className="mt-8 flex items-center gap-4 border-t border-slate-100 pt-6">
+                <img
+                  src="/kathleen-peer.jpg"
+                  alt="Kathleen C. Peer"
+                  className="h-16 w-16 shrink-0 rounded-full object-cover ring-1 ring-slate-200"
+                />
+                <div className="flex flex-col gap-1">
+                  <span className="text-base font-bold text-slate-900">
+                    Kathleen C. Peer
+                  </span>
+                  <span className="text-sm text-slate-600">
+                    Peer Law Firm &bull; Stuyvesant, NY
+                  </span>
+                  <span className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+                    <a
+                      href="https://www.linkedin.com/in/kathleen-peer"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-medium text-blue-600 hover:underline"
+                    >
+                      LinkedIn
+                    </a>
+                  </span>
+                </div>
+              </figcaption>
+            </figure>
           </div>
         </section>
 
