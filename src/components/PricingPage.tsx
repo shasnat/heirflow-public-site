@@ -2,7 +2,6 @@ import { useEffect, useState, type ReactNode } from "react";
 import {
   Calculator,
   Check,
-  Clock,
   DollarSign,
   FileText,
   Landmark,
@@ -62,7 +61,6 @@ interface PricingTier {
   includes: ModuleKey[];
   highlight?: boolean;
   badge?: string;
-  note?: string;
   /** Displayed but not yet purchasable: muted, badged, non-interactive. No tier
    *  is coming-soon during the Complete pre-sale, but the mechanism is kept so a
    *  future tier can be teased before launch by setting this flag. */
@@ -81,11 +79,10 @@ const TIERS: PricingTier[] = [
     name: "Complete",
     tagline: "The full estate-administration workflow, end to end.",
     monthly: 349,
-    annual: 3349,
+    annual: 3348,
     includes: ["doc-filing", "accounting", "assets"],
     highlight: true,
-    badge: "Early access",
-    note: "Early-access rate, locked in now. It rises as the Accounting and Assets & Liabilities modules ship.",
+    badge: "Early Adopter Price",
   },
 ];
 
@@ -331,15 +328,6 @@ export default function PricingPage() {
                         ) : (
                           <p className="mt-2 text-sm text-slate-500">Billed monthly</p>
                         )}
-                        {tier.note ? (
-                          <p className="mt-3 flex gap-1.5 text-xs text-amber-700">
-                            <Sparkles
-                              className="mt-0.5 h-3.5 w-3.5 shrink-0"
-                              aria-hidden
-                            />
-                            <span>{tier.note}</span>
-                          </p>
-                        ) : null}
                       </>
                     )}
                   </div>
@@ -352,24 +340,19 @@ export default function PricingPage() {
                           key={mod.key}
                           className={cn(
                             "flex items-center gap-2.5 text-sm",
-                            !included && "text-slate-400",
-                            included && !coming && "font-medium text-slate-800",
-                            coming && "text-slate-600",
+                            included
+                              ? "font-medium text-slate-800"
+                              : "text-slate-400",
                           )}
                         >
-                          {!included ? (
-                            <Minus
-                              className="h-4 w-4 shrink-0 text-slate-300"
-                              aria-hidden
-                            />
-                          ) : coming ? (
-                            <Clock
-                              className="h-4 w-4 shrink-0 text-amber-500"
+                          {included ? (
+                            <Check
+                              className="h-4 w-4 shrink-0 text-blue-600"
                               aria-hidden
                             />
                           ) : (
-                            <Check
-                              className="h-4 w-4 shrink-0 text-blue-600"
+                            <Minus
+                              className="h-4 w-4 shrink-0 text-slate-300"
                               aria-hidden
                             />
                           )}
@@ -418,8 +401,7 @@ export default function PricingPage() {
                             {module.name}
                           </span>
                           {coming ? (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700">
-                              <Clock className="h-3 w-3" aria-hidden />
+                            <span className="inline-flex items-center rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700">
                               {meta.eta}
                             </span>
                           ) : null}
