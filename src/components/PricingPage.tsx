@@ -1,6 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
 import {
-  ArrowLeftRight,
   Calculator,
   Check,
   DollarSign,
@@ -16,6 +15,7 @@ import { cn } from "./ui/utils";
 
 type BillingCadence = "monthly" | "annual";
 type ModuleKey = "doc-filing" | "assets" | "accounting";
+type ModuleStatus = "live" | "coming";
 
 const AssetsIcon = (
   <span className="relative inline-flex">
@@ -26,11 +26,32 @@ const AssetsIcon = (
   </span>
 );
 
-const MODULE_ORDER: { key: ModuleKey; name: string }[] = [
-  { key: "doc-filing", name: "Document Filing" },
-  { key: "assets", name: "Assets & Liabilities" },
-  { key: "accounting", name: "Accounting" },
+// Module availability drives the pre-sale messaging. Document Filing is live
+// today; Accounting and Assets & Liabilities are pre-sold with the Complete
+// plan and ship on the timeline below. Order reflects the ship roadmap.
+const MODULE_ORDER: {
+  key: ModuleKey;
+  name: string;
+  status: ModuleStatus;
+  eta?: string;
+}[] = [
+  { key: "doc-filing", name: "Document Filing", status: "live" },
+  {
+    key: "accounting",
+    name: "Accounting",
+    status: "coming",
+    eta: "Coming August 2026",
+  },
+  {
+    key: "assets",
+    name: "Assets & Liabilities",
+    status: "coming",
+    eta: "Coming soon",
+  },
 ];
+
+const moduleMeta = (key: ModuleKey) =>
+  MODULE_ORDER.find((mod) => mod.key === key)!;
 
 interface PricingTier {
   name: string;
@@ -40,8 +61,9 @@ interface PricingTier {
   includes: ModuleKey[];
   highlight?: boolean;
   badge?: string;
-  /** Displayed but not yet purchasable: muted, badged, non-interactive. Only
-   *  Essentials is live today — drop this flag on a tier as it launches. */
+  /** Displayed but not yet purchasable: muted, badged, non-interactive. No tier
+   *  is coming-soon during the Complete pre-sale, but the mechanism is kept so a
+   *  future tier can be teased before launch by setting this flag. */
   comingSoon?: boolean;
 }
 
@@ -54,22 +76,13 @@ const TIERS: PricingTier[] = [
     includes: ["doc-filing"],
   },
   {
-    name: "Professional",
-    tagline: "File documents and marshal the estate's assets.",
-    monthly: 599,
-    annual: 5748,
-    includes: ["doc-filing", "assets"],
-    comingSoon: true,
-  },
-  {
     name: "Complete",
     tagline: "The full estate-administration workflow, end to end.",
-    monthly: 949,
-    annual: 7668,
-    includes: ["doc-filing", "assets", "accounting"],
+    monthly: 349,
+    annual: 3348,
+    includes: ["doc-filing", "accounting", "assets"],
     highlight: true,
-    badge: "Best value",
-    comingSoon: true,
+    badge: "Early Adopter Price",
   },
 ];
 
@@ -98,6 +111,19 @@ const MODULES: PricingModule[] = [
     ],
   },
   {
+    key: "accounting",
+    name: "Accounting",
+    icon: <Calculator className="h-6 w-6" aria-hidden />,
+    tagline: "Account for every dollar and close out the estate.",
+    monthly: 449,
+    annual: 4308,
+    features: [
+      "Tracks every dollar that moves into and out of the estate",
+      "Produces court-ready formal and informal accountings for judges and beneficiaries",
+      "Guides you through final distributions and releasing the fiduciary",
+    ],
+  },
+  {
     key: "assets",
     name: "Assets & Liabilities",
     icon: AssetsIcon,
@@ -109,19 +135,6 @@ const MODULES: PricingModule[] = [
       "Generates the paperwork to marshal, appraise, and safeguard every asset",
       "Tells you exactly what to send, and to whom, at each step",
       "Shows you how to pay down or negotiate the estate's debts and liabilities",
-    ],
-  },
-  {
-    key: "accounting",
-    name: "Accounting",
-    icon: <Calculator className="h-6 w-6" aria-hidden />,
-    tagline: "Account for every dollar and close out the estate.",
-    monthly: 449,
-    annual: 4308,
-    features: [
-      "Tracks every dollar that moves into and out of the estate",
-      "Produces court-ready formal and informal accountings for judges and beneficiaries",
-      "Guides you through final distributions and releasing the fiduciary",
     ],
   },
 ];
@@ -142,7 +155,6 @@ function effectiveMonthly(annual: number): number {
 
 export default function PricingPage() {
   const [cadence, setCadence] = useState<BillingCadence>("annual");
-  const [showModules, setShowModules] = useState(false);
   const [selectedTier, setSelectedTier] = useState<string | null>(null);
 
   const toggleTier = (name: string) => {
@@ -165,15 +177,13 @@ export default function PricingPage() {
 
   const isAnnual = cadence === "annual";
   // Advertise only a discount a visitor can actually get today: the best annual
-  // saving across purchasable tiers (bundle view) or the modules (module view).
+  // saving across purchasable tiers.
   const purchasableTiers = TIERS.filter((tier) => !tier.comingSoon);
-  const maxTierDiscount = Math.max(
-    ...purchasableTiers.map((tier) => annualDiscountPct(tier.monthly, tier.annual)),
+  const maxDiscount = Math.max(
+    ...purchasableTiers.map((tier) =>
+      annualDiscountPct(tier.monthly, tier.annual),
+    ),
   );
-  const maxModuleDiscount = Math.max(
-    ...MODULES.map((module) => annualDiscountPct(module.monthly, module.annual)),
-  );
-  const maxDiscount = showModules ? maxModuleDiscount : maxTierDiscount;
   const selectedTierData =
     TIERS.find((tier) => tier.name === selectedTier) ?? null;
   const selectedModules = selectedTierData
@@ -188,8 +198,9 @@ export default function PricingPage() {
             Pricing
           </h1>
           <p className="mt-4 text-lg text-slate-600">
-            Pick the plan that covers how far you take the estate. Pricing is
-            per seat.
+            Start with Document Filing, or lock in the Complete plan at an
+            early-access rate while the remaining modules ship. Pricing is per
+            seat.
           </p>
         </div>
 
@@ -233,10 +244,8 @@ export default function PricingPage() {
           </div>
         </div>
 
-        {/* Plan tiers — swapped with single modules via the link below */}
-        {!showModules && (
-          <>
-            <div className="mt-10 grid items-start gap-6 md:grid-cols-3">
+        {/* Plan tiers */}
+        <div className="mx-auto mt-10 grid max-w-3xl items-start gap-6 md:grid-cols-2">
           {TIERS.map((tier) => {
             const price = isAnnual
               ? effectiveMonthly(tier.annual)
@@ -281,7 +290,7 @@ export default function PricingPage() {
                     <div className="inline-flex w-fit items-center gap-1.5 rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-700">
                       Coming soon
                     </div>
-                  ) : tier.badge && isAnnual ? (
+                  ) : tier.badge ? (
                     <div className="inline-flex w-fit items-center gap-1.5 rounded-full bg-blue-600 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
                       <Sparkles className="h-3.5 w-3.5" aria-hidden />
                       {tier.badge}
@@ -325,6 +334,7 @@ export default function PricingPage() {
                   <ul className="mt-5 space-y-3">
                     {MODULE_ORDER.map((mod) => {
                       const included = tier.includes.includes(mod.key);
+                      const coming = included && mod.status === "coming";
                       return (
                         <li
                           key={mod.key}
@@ -346,7 +356,14 @@ export default function PricingPage() {
                               aria-hidden
                             />
                           )}
-                          <span>{mod.name}</span>
+                          <span>
+                            {mod.name}
+                            {coming ? (
+                              <span className="ml-1.5 text-xs font-medium text-amber-700">
+                                {mod.eta}
+                              </span>
+                            ) : null}
+                          </span>
                         </li>
                       );
                     })}
@@ -371,32 +388,41 @@ export default function PricingPage() {
                     : `${formatPrice(selectedTierData.monthly)} / seat / month.`}
                 </p>
                 <div className="mt-5 space-y-5">
-                  {selectedModules.map((module) => (
-                    <div key={module.key}>
-                      <div className="flex items-center gap-2.5">
-                        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600 [&_svg]:h-4 [&_svg]:w-4">
-                          {module.icon}
-                        </span>
-                        <span className="font-medium text-slate-800">
-                          {module.name}
-                        </span>
+                  {selectedModules.map((module) => {
+                    const meta = moduleMeta(module.key);
+                    const coming = meta.status === "coming";
+                    return (
+                      <div key={module.key}>
+                        <div className="flex items-center gap-2.5">
+                          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600 [&_svg]:h-4 [&_svg]:w-4">
+                            {module.icon}
+                          </span>
+                          <span className="font-medium text-slate-800">
+                            {module.name}
+                          </span>
+                          {coming ? (
+                            <span className="inline-flex items-center rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700">
+                              {meta.eta}
+                            </span>
+                          ) : null}
+                        </div>
+                        <ul className="mt-2 space-y-2 pl-[42px]">
+                          {module.features.map((feature) => (
+                            <li
+                              key={feature}
+                              className="flex gap-2.5 text-sm text-slate-700"
+                            >
+                              <Check
+                                className="mt-0.5 h-4 w-4 shrink-0 text-blue-600"
+                                aria-hidden
+                              />
+                              <span>{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                      <ul className="mt-2 space-y-2 pl-[42px]">
-                        {module.features.map((feature) => (
-                          <li
-                            key={feature}
-                            className="flex gap-2.5 text-sm text-slate-700"
-                          >
-                            <Check
-                              className="mt-0.5 h-4 w-4 shrink-0 text-blue-600"
-                              aria-hidden
-                            />
-                            <span>{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
                 {/* Purchase happens in the app (account creation + checkout are
                     authenticated), so this links out to app signup rather than a
@@ -415,96 +441,11 @@ export default function PricingPage() {
             Select a plan to see everything it includes.
           </p>
         )}
-          </>
-        )}
-
-        {/* Single modules — swapped in place of the plan tiers */}
-        {showModules && (
-          <div>
-            <p className="mx-auto mt-10 max-w-2xl text-center text-sm text-slate-500">
-              Modules can be purchased on their own. Buying them separately costs
-              more than the Complete plan, which bundles all three.
-            </p>
-            <div className="mt-6 grid gap-6 md:grid-cols-3">
-              {MODULES.map((module) => {
-                const price = isAnnual
-                  ? effectiveMonthly(module.annual)
-                  : module.monthly;
-                const pct = annualDiscountPct(module.monthly, module.annual);
-                return (
-                  <Card
-                    key={module.key}
-                    className="flex h-full flex-col shadow-sm transition-shadow hover:shadow-md"
-                  >
-                    <CardHeader>
-                      <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
-                        {module.icon}
-                      </div>
-                      <CardTitle className="mt-3">{module.name}</CardTitle>
-                      <p className="text-sm text-slate-600">{module.tagline}</p>
-                    </CardHeader>
-                    <CardContent className="flex flex-1 flex-col">
-                      <div className="border-y border-slate-100 py-4">
-                        <div className="flex items-baseline gap-1.5">
-                          <span className="text-3xl font-bold text-slate-900">
-                            {formatPrice(price)}
-                          </span>
-                          <span className="text-sm font-medium text-slate-500">
-                            / seat / month
-                          </span>
-                        </div>
-                        {isAnnual ? (
-                          <p className="mt-2 text-sm text-slate-500">
-                            Billed annually at {formatPrice(module.annual)} /
-                            seat ·{" "}
-                            <span className="font-medium text-green-700">
-                              save {pct}%
-                            </span>
-                          </p>
-                        ) : (
-                          <p className="mt-2 text-sm text-slate-500">
-                            Billed monthly
-                          </p>
-                        )}
-                      </div>
-                      <ul className="mt-5 space-y-3">
-                        {module.features.map((feature) => (
-                          <li
-                            key={feature}
-                            className="flex gap-2.5 text-sm text-slate-700"
-                          >
-                            <Check
-                              className="mt-0.5 h-4 w-4 shrink-0 text-blue-600"
-                              aria-hidden
-                            />
-                            <span>{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* Swap between bundle tiers and single modules */}
-        <div className="mt-10 text-center">
-          <button
-            type="button"
-            onClick={() => setShowModules((shown) => !shown)}
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-700"
-          >
-            <ArrowLeftRight className="h-4 w-4" aria-hidden />
-            {showModules
-              ? "Want everything together? Buy a bundle"
-              : "Just need one part? Buy a single module"}
-          </button>
-        </div>
 
         <p className="mt-10 text-center text-sm text-slate-500">
-          All prices are per seat. Pricing is preliminary and subject to change.
+          All prices are per seat. The Complete plan is an early-access rate that
+          increases as new modules ship. Pricing is preliminary and subject to
+          change.
         </p>
       </section>
     </div>
