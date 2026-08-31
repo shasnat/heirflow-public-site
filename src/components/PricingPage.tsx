@@ -26,9 +26,9 @@ const AssetsIcon = (
   </span>
 );
 
-// Module availability drives the pre-sale messaging. Document Filing is live
-// today; Accounting and Assets & Liabilities are pre-sold with the Complete
-// plan and ship on the timeline below. Order reflects the ship roadmap.
+// Module availability drives the pre-sale messaging. Document Filing and
+// Accounting are live today; Assets & Liabilities is pre-sold with the Complete
+// plan and ships on the timeline below. Order reflects the ship roadmap.
 const MODULE_ORDER: {
   key: ModuleKey;
   name: string;
@@ -36,12 +36,7 @@ const MODULE_ORDER: {
   eta?: string;
 }[] = [
   { key: "doc-filing", name: "Document Filing", status: "live" },
-  {
-    key: "accounting",
-    name: "Accounting",
-    status: "coming",
-    eta: "Coming August 2026",
-  },
+  { key: "accounting", name: "Accounting", status: "live" },
   {
     key: "assets",
     name: "Assets & Liabilities",
