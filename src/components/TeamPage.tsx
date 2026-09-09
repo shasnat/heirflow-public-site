@@ -73,7 +73,6 @@ export default function TeamPage({ onNavigate }: TeamPageProps) {
                 src="/shay-hasnat.jpg"
                 alt="Shay Hasnat"
                 className="w-48 h-48 rounded-full mx-auto object-cover border-4 border-blue-100"
-                style={{ objectPosition: "center 0%" }}
                 onError={(e) => {
                   // Fallback if image fails to load
                   const target = e.target as HTMLImageElement;
