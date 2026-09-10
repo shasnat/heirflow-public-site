@@ -72,7 +72,8 @@ const TIERS: PricingTier[] = [
   },
   {
     name: "Complete",
-    tagline: "The full estate-administration workflow, end to end.",
+    tagline:
+      "The full estate-administration workflow, end to end. Includes access to HeirFlow’s AI Assistant.",
     monthly: 349,
     annual: 3348,
     includes: ["doc-filing", "accounting", "assets"],
