@@ -50,7 +50,8 @@ const moduleMeta = (key: ModuleKey) =>
 
 interface PricingTier {
   name: string;
-  tagline: string;
+  /** Rendered inside a <p>, so inline emphasis is allowed. */
+  tagline: ReactNode;
   monthly: number;
   annual: number;
   includes: ModuleKey[];
@@ -72,8 +73,15 @@ const TIERS: PricingTier[] = [
   },
   {
     name: "Complete",
-    tagline:
-      "The full estate-administration workflow, end to end. Includes access to HeirFlow’s AI Assistant.",
+    tagline: (
+      <>
+        The full estate-administration workflow, end to end. Includes access to{" "}
+        <strong className="font-semibold text-slate-900">
+          HeirFlow’s AI Assistant
+        </strong>
+        .
+      </>
+    ),
     monthly: 349,
     annual: 3348,
     includes: ["doc-filing", "accounting", "assets"],
