@@ -51,14 +51,14 @@ export default function Ad020V2ScheduleDemoPage({
             Let&apos;s find out if HeirFlow is the right fit for you.
           </h1>
           <p className="text-slate-600">
-            In this 15-minute call, we&apos;ll learn about your process, answer
+            In this 30-minute call, we&apos;ll learn about your process, answer
             your questions, and help you decide whether HeirFlow is a good fit.
           </p>
         </div>
         <div className="flex items-start justify-center w-full">
           <div
             className="calendly-inline-widget w-full"
-            data-url="https://calendly.com/shay-heirflow/15-minute-meeting"
+            data-url="https://calendly.com/shay-heirflow/30min"
             style={{ minWidth: "800px", height: "700px", width: "100%" }}
           ></div>
         </div>
