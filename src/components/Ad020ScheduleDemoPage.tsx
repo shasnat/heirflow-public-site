@@ -47,13 +47,13 @@ export default function Ad020ScheduleDemoPage({
             Not sure what to do next? Let’s figure it out together.
           </h1>
           <p className="text-slate-600">
-            In a quick 15-minute call, we’ll walk through your situation and help you understand your next step
+            In a 30-minute call, we’ll walk through your situation and help you understand your next step
           </p>
         </div>
         <div className="flex items-start justify-center w-full">
           <div
             className="calendly-inline-widget w-full"
-            data-url="https://calendly.com/shay-heirflow/15-minute-meeting"
+            data-url="https://calendly.com/shay-heirflow/30min"
             style={{ minWidth: "800px", height: "700px", width: "100%" }}
           ></div>
         </div>

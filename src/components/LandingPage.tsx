@@ -28,7 +28,7 @@ interface LandingPageProps {
 }
 
 const CALENDLY_URL =
-  "https://calendly.com/shay-heirflow/15-minute-meeting?hide_event_type_details=1";
+  "https://calendly.com/shay-heirflow/30min?hide_event_type_details=1";
 
 export default function LandingPage({ onNavigate }: LandingPageProps) {
   useEffect(() => {
@@ -403,7 +403,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
               <div className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-12">
                 <div className="max-w-xl space-y-4">
                   <h2 className="text-3xl font-bold text-slate-900 md:text-4xl">
-                    Book a 15-minute call
+                    Book a 30-minute call
                   </h2>
                   <p className="text-lg text-slate-600">
                     See how HeirFlow handles county-specific probate for your
@@ -411,7 +411,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                     questions.
                   </p>
                   <p className="pt-1 text-sm text-slate-500">
-                    Book in seconds • 15-minute call • No obligation
+                    Book in seconds • 30-minute call • No obligation
                   </p>
                   <div className="pt-2">
                     <button

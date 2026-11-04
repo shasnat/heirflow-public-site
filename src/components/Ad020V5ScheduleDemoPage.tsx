@@ -26,7 +26,7 @@ interface Ad020V5ScheduleDemoPageProps {
 }
 
 const CALENDLY_URL =
-  "https://calendly.com/shay-heirflow/15-minute-meeting?hide_event_type_details=1";
+  "https://calendly.com/shay-heirflow/30min?hide_event_type_details=1";
 
 export default function Ad020V5ScheduleDemoPage({
   onNavigate,
@@ -71,7 +71,7 @@ export default function Ad020V5ScheduleDemoPage({
               <ul className="mt-8 space-y-3">
                 {[
                   "Book in seconds",
-                  "15-minute call",
+                  "30-minute call",
                   "No pressure. Just clarity.",
                 ].map((line) => (
                   <li key={line} className="flex items-center gap-3 text-slate-700">

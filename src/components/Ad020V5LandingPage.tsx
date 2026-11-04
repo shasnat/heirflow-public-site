@@ -37,7 +37,7 @@ interface Ad020V5LandingPageProps {
 }
 
 const CALENDLY_URL =
-  "https://calendly.com/shay-heirflow/15-minute-meeting?hide_event_type_details=1";
+  "https://calendly.com/shay-heirflow/30min?hide_event_type_details=1";
 
 const heroImageSrc = "/hero-v5-lifestyle.png";
 
@@ -109,10 +109,10 @@ export default function Ad020V5LandingPage({ onNavigate }: Ad020V5LandingPagePro
                   <Button
                     size="lg"
                     className="rounded-xl bg-blue-600 px-8 py-6 text-base font-semibold text-white shadow-md hover:bg-blue-700"
-                    onClick={() => handleBookIntroClick("See if it's a fit (15 min)")}
+                    onClick={() => handleBookIntroClick("See if it's a fit (30 min)")}
                   >
                     <Calendar className="h-5 w-5" aria-hidden />
-                    See if it&apos;s a fit (15 min)
+                    See if it&apos;s a fit (30 min)
                   </Button>
                   <p className="flex items-start gap-2 text-sm text-slate-500">
                     <span className="mt-0.5 text-blue-500" aria-hidden>
@@ -127,7 +127,7 @@ export default function Ad020V5LandingPage({ onNavigate }: Ad020V5LandingPagePro
 
             <div className="mt-12 grid gap-6 border-t border-slate-200/60 pt-10 sm:grid-cols-3">
               {[
-                { title: "15-minute call", sub: "Quick intro" },
+                { title: "30-minute call", sub: "Quick intro" },
                 { title: "See if it fits your situation", sub: "Before a full demo" },
                 { title: "No obligation", sub: "Just a quick check" },
               ].map((item) => (
@@ -289,7 +289,7 @@ export default function Ad020V5LandingPage({ onNavigate }: Ad020V5LandingPagePro
                     the full platform.
                   </p>
                   <p className="pt-1 text-sm text-slate-500 md:text-[0.9375rem]">
-                    Book in seconds • 15-minute intro • No pressure
+                    Book in seconds • 30-minute intro • No pressure
                   </p>
                 </div>
                 <div className="min-h-[560px] w-full overflow-x-auto rounded-xl border border-slate-100 bg-slate-50/50">
