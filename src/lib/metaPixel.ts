@@ -73,16 +73,23 @@ export const trackEvent = (
  * custom event immediately so the "reached booking page" funnel step is still
  * counted (without being mistaken for a conversion).
  *
+ * Pass `{ trackView: false }` on pages where Calendly is embedded inline
+ * alongside other content (e.g. landing pages), so loading the page isn't
+ * counted as reaching the booking step.
+ *
  * Returns a cleanup function; call it on component unmount.
  */
 export const observeCalendlyBooking = (
-  params?: Record<string, unknown>
+  params?: Record<string, unknown>,
+  { trackView = true }: { trackView?: boolean } = {}
 ): (() => void) => {
   if (typeof window === "undefined") {
     return () => {};
   }
 
-  trackEvent("ViewSchedulePage", params);
+  if (trackView) {
+    trackEvent("ViewSchedulePage", params);
+  }
 
   let booked = false;
 
