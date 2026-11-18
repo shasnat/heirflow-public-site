@@ -37,7 +37,8 @@ export default function Navigation({ onNavigate }: NavigationProps) {
   // links out to app signup (not a heirflow.com flow). New attorneys get a 7-day
   // free trial automatically on their first checkout, so this is the primary CTA.
   const handleStartTrial = () => {
-    trackStandardEvent("Lead", { pageName: "nav" });
+    // Custom event only: this click just links out to app signup, so it isn't a
+    // Lead. The real signup conversion belongs in the app.
     trackEvent("StartTrialClick", { pageName: "nav", ctaText: "Nav - Try for Free" });
     window.location.href = appSignupUrl();
   };

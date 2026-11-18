@@ -94,7 +94,8 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
   };
 
   const handleStartTrialClick = (ctaText: string) => {
-    trackStandardEvent("Lead", { pageName: "landing" });
+    // Custom event only: this click just links out to app signup, so it isn't a
+    // Lead. The real signup conversion belongs in the app.
     trackEvent("StartTrialClick", { pageName: "landing", ctaText });
     window.location.href = appSignupUrl();
   };
