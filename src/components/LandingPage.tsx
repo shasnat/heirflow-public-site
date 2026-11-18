@@ -12,7 +12,11 @@ import {
 } from "lucide-react";
 import { Button } from "./ui/button";
 import FeatureCarousel from "./FeatureCarousel";
-import { trackEvent, trackStandardEvent } from "../lib/metaPixel";
+import {
+  observeCalendlyBooking,
+  trackEvent,
+  trackStandardEvent,
+} from "../lib/metaPixel";
 import { appSignupUrl } from "../lib/appUrl";
 
 interface LandingPageProps {
@@ -56,6 +60,12 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
     cleanupBrevoElements();
     const timeoutId = setTimeout(cleanupBrevoElements, 100);
 
+    // Fires `Schedule` only on a real booking in the inline Calendly embed.
+    const stopBookingObserver = observeCalendlyBooking(
+      { pageName: "landing" },
+      { trackView: false }
+    );
+
     // Load the Calendly widget script for the inline booking embed.
     const calendlyScript = document.createElement("script");
     calendlyScript.src = "https://assets.calendly.com/assets/external/widget.js";
@@ -63,6 +73,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
     document.body.appendChild(calendlyScript);
 
     return () => {
+      stopBookingObserver();
       clearTimeout(timeoutId);
       if (document.body.contains(calendlyScript)) {
         document.body.removeChild(calendlyScript);

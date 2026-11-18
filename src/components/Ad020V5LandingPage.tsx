@@ -11,7 +11,11 @@ import {
   Users,
 } from "lucide-react";
 import { Button } from "./ui/button";
-import { trackEvent, trackStandardEvent } from "../lib/metaPixel";
+import {
+  observeCalendlyBooking,
+  trackEvent,
+  trackStandardEvent,
+} from "../lib/metaPixel";
 
 type Ad020V5NavigatePage =
   | "landing"
@@ -43,12 +47,19 @@ const heroImageSrc = "/hero-v5-lifestyle.png";
 
 export default function Ad020V5LandingPage({ onNavigate }: Ad020V5LandingPageProps) {
   useEffect(() => {
+    // Fires `Schedule` only on a real booking in the inline Calendly embed.
+    const stopBookingObserver = observeCalendlyBooking(
+      { pageName: "ad-020-v5-landing", adId: "ad-020-v5" },
+      { trackView: false }
+    );
+
     const calendlyScript = document.createElement("script");
     calendlyScript.src = "https://assets.calendly.com/assets/external/widget.js";
     calendlyScript.async = true;
     document.body.appendChild(calendlyScript);
 
     return () => {
+      stopBookingObserver();
       if (document.body.contains(calendlyScript)) {
         document.body.removeChild(calendlyScript);
       }
