@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "npx vite",
-    "build": "tsc && npx vite build",
+    "build": "tsc && npx vite build && node scripts/emit-route-pages.mjs",
     "preview": "npx vite preview"
   },
   "dependencies": {
